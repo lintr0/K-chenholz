@@ -1,0 +1,626 @@
+<!DOCTYPE html><html lang="de"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ballon d’Or Social</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0906;--card:#16120b;--gold:#d4af37;--g2:#f6e27a;--tx:#f3ead2;--mu:#9c917a;--bd:#3a2f14;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:radial-gradient(circle at 50% -10%,#2a2110,var(--bg) 60%) fixed;color:var(--tx);font:15px/1.45 Inter,system-ui,sans-serif}
+h1,h2,.logo{font-family:'Playfair Display',Georgia,serif;margin:.2em 0}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 16px;background:#0b0906ee;border-bottom:1px solid var(--bd)}
+.logo{font-size:20px;color:var(--gold)}.logo span{color:var(--tx);font-weight:600;font-size:13px;letter-spacing:3px}
+nav{display:flex;gap:6px;flex-wrap:wrap}
+nav button{background:none;border:1px solid transparent;color:var(--tx);padding:6px 12px;border-radius:20px;cursor:pointer;font:inherit}
+nav button.on,nav button:hover{border-color:var(--gold);color:var(--g2)}
+main{max-width:1000px;margin:0 auto;padding:16px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;margin-bottom:14px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0}
+.b,.b2{border-radius:22px;padding:8px 16px;font:600 14px Inter,sans-serif;cursor:pointer}
+.b{background:linear-gradient(135deg,var(--gold),var(--g2));color:#1a1405;border:0}
+.b2{background:none;border:1px solid var(--gold);color:var(--g2)}
+input,textarea,select{background:#0f0c07;color:var(--tx);border:1px solid var(--bd);border-radius:8px;padding:8px;font:inherit;max-width:100%}
+input[type=color]{padding:0;width:44px;height:30px}textarea{width:100%;min-height:60px}
+input:not([type]),input[type=text],input[type=password],input[type=email],input[type=number]{flex:1;min-width:120px}
+.mu{color:var(--mu)}.av{border-radius:50%;object-fit:cover;background:linear-gradient(135deg,var(--gold),#7a5c10);color:#1a1405;display:flex;align-items:center;justify-content:center;font-weight:800;border:2px solid var(--gold);flex:none}
+.hd{cursor:pointer}.pi{width:100%;border-radius:10px;margin:8px 0;display:block}
+.lk{background:none;border:0;color:var(--tx);cursor:pointer;font-size:15px}.cm{font-size:14px;margin:3px 0}
+.people{display:flex;gap:12px;overflow-x:auto;padding-bottom:8px}.people div{text-align:center;cursor:pointer;font-size:12px;flex:none}
+.login{max-width:380px;margin:8vh auto;text-align:center;padding:16px}.login h1{font-size:38px;color:var(--gold);letter-spacing:2px}
+.bn{width:100%;aspect-ratio:10/3;object-fit:cover;border-radius:14px;background:linear-gradient(120deg,#2a2110,var(--gold) 50%,#2a2110);display:block}
+.ph{display:flex;gap:14px;align-items:flex-end;margin:-40px 16px 10px;flex-wrap:wrap}
+.badges{display:flex;gap:8px;flex-wrap:wrap}.badge{border:1px solid var(--gold);border-radius:12px;padding:6px 10px;font-size:13px;background:#1d1708}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px}.grid img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px}
+.st{display:grid;grid-template-columns:1fr 340px;gap:14px}@media(max-width:760px){.st{grid-template-columns:1fr}}
+.ctl{max-height:75vh;overflow:auto}.ctl h3{color:var(--gold);font-family:'Playfair Display',serif;margin:12px 0 4px}
+.ctl label.r{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:5px 0}
+#cv canvas{width:100%;height:auto;border-radius:12px;border:1px solid var(--bd);touch-action:none;display:block;cursor:grab}
+table{width:100%;border-collapse:collapse}td,th{padding:6px;border-bottom:1px solid var(--bd);text-align:left;font-size:14px}
+code{color:var(--g2);font-size:15px;letter-spacing:2px}.err{color:#ff7b7b}
+
+.chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.chip{background:#0f0c07;color:var(--tx);border:1px solid var(--bd);border-radius:16px;padding:5px 11px;font:13px Inter,sans-serif;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.chip.on{background:linear-gradient(135deg,var(--gold),var(--g2));color:#1a1405;border-color:var(--gold);font-weight:600}.chip i{width:12px;height:12px;border-radius:50%;border:2px solid #fff;display:inline-block}
+.sw{width:26px;height:26px;border-radius:50%;border:2px solid #555;cursor:pointer;display:inline-block}.sw.on{border-color:var(--g2);box-shadow:0 0 0 2px var(--gold)}
+.stage{position:sticky;top:70px;align-self:start}#cv canvas{box-shadow:0 0 40px #d4af3733}.st{grid-template-columns:1fr 380px}
+.tag{font-size:10px;border:1px solid var(--gold);color:var(--g2);border-radius:8px;padding:0 5px;margin-left:4px;letter-spacing:1px;font-weight:600;vertical-align:middle}
+.q{padding:12px 0;border-top:1px solid var(--bd)}details{margin-top:6px;font-size:13px}summary{cursor:pointer}ol{margin:6px 0;padding-left:22px}
+.sub{margin:18px 0 4px;padding-top:10px;border-top:1px solid var(--gold);font:700 17px 'Playfair Display',Georgia,serif;color:var(--g2)}
+</style></head><body><div id="app"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+const $=s=>document.querySelector(s),E=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const AW=['Goal of the Day-Award','Ballon d’Or','Puskás Award','Captain Award','Best Matchday Performance Award','Beste Entwicklungs Award','Best Defensive Player Award','Best Shot Award','Best Goalkeeper Award','Highest Speed Award','Best Assister Award','Best Dribbler Award'];
+const IC=['🥅','🏆','🚀','🎖️','⭐','📈','🛡️','👟','🧤','⚡','🎯','🪄'];
+const TEAMS="Algerien:fff:0a7f3f;Argentinien:75aadb:fff;Australien:ffcd00:00843d;Österreich:d6001c:fff;Belgien:d3151f:111;Bosnien-Herzegowina:1d4ea1:ffd400;Brasilien:ffdc02:0a8f3c;Kanada:d52b1e:fff;Kap Verde:003893:fff;Kolumbien:fcd116:003893;Kroatien:fff:e30613;Curaçao:0b2f8a:ffd200;Tschechien:d7141a:11457e;DR Kongo:f7d618:ce1021;Ecuador:ffdd00:0033a0;Ägypten:d71920:111;England:fff:1c2c5b;Frankreich:1d2f6f:fff;Deutschland:fff:111;Ghana:fff:ce1126;Haiti:00209f:d21034;Iran:fff:d0001b;Irak:0a7f3f:fff;Elfenbeinküste:f77f00:fff;Japan:1d3a8a:fff;Jordanien:fff:d21034;Mexiko:0a6b3a:fff;Marokko:c1272d:0a6b3a;Niederlande:f36c21:111;Neuseeland:fff:111;Norwegen:ba0c2f:00205b;Panama:d21034:00529b;Paraguay:d52b1e:fff;Portugal:b0122c:0a6b3a;Katar:8a1538:fff;Saudi-Arabien:fff:006c35;Schottland:0b2a6b:fff;Senegal:fff:00853f;Südafrika:ffb81c:00693e;Südkorea:d02030:111;Spanien:c60b1e:ffc400;Schweden:fecc02:006aa7;Schweiz:d52b1e:fff;Tunesien:e70013:fff;Türkei:e30a17:fff;USA:fff:0a3161;Uruguay:75aadb:111;Usbekistan:fff:1eb53a".split(';').map(t=>{const[n,m,x]=t.split(':');return{n,m:'#'+m,t:'#'+x}});
+const SEED={Frederik:'345343',Lino:'156687',Hannes:'269763',Hugo:'016666',Lorenz:'268199',Georg:'048043',Albert:'584959',Jonathan:'377452',Johann:'264984',Benedikt:'602388'};
+const defC=()=>({skin:'#e0ac69',face:0,eye:'#3b2a1a',mouth:0,nose:1,hair:1,hc:'#2b1b10',brow:0,beard:0,team:18,shoe:'#111111',pants:'#111111',glove:0,hat:0,hatc:'#d4af37',glass:0,ring:0,ear:0,brace:0,tt:0,lip:0,lt:0,ball:0,km:0,kp:1,kni:2,k1:'#1c2c5b',k2:'#ffffff',k3:'#d4af37',ks:0,nsh:0,ncol:'#ffffff',nf:0,fn:0,nmm:0,cnm:'',nmc:'#ffffff',sp:'',lg:0,lc:'#d4af37',lp:0,ls:1,lgi:'',bd:1,ht:1,eyes:0,ears:0,fr:0,sc:0,fp:0,var:0,col:0,sl:0,num:10,pst:1,pt:1,ps:0,band:0,wr:0,nk:0,cap:0,th:0,ax:1});
+let D;try{D=JSON.parse(localStorage.getItem('bdo2'))}catch(e){}
+if(!D)D={users:Object.entries(SEED).map(([n,c],i)=>({id:'u'+i,name:n,code:c,bio:'',av:'',bn:'',ch:defC()})),aw:[],posts:[]};
+/* ===== CLOUD-SYNC (Supabase) – hier deine Daten eintragen, siehe README ===== */
+const CLOUD={url:'',key:''};
+const cl=!!(CLOUD.url&&CLOUD.key),CH={apikey:CLOUD.key,Authorization:'Bearer '+CLOUD.key,'Content-Type':'application/json'};
+let dirty=0,tm,last='',loaded=!cl;
+const push=()=>{dirty=1;clearTimeout(tm);tm=setTimeout(async()=>{try{await fetch(CLOUD.url+'/rest/v1/kv?on_conflict=id',{method:'POST',headers:{...CH,Prefer:'resolution=merge-duplicates'},body:JSON.stringify([{id:'main',data:D}])});last=JSON.stringify(D)}catch(e){}dirty=0},800)};
+async function pull(first){if(!cl||dirty)return;try{const r=await(await fetch(CLOUD.url+'/rest/v1/kv?id=eq.main&select=data',{headers:CH})).json();
+ if(r[0]){const t=JSON.stringify(r[0].data);if(t!=last){last=t;D=r[0].data;ensureBots();try{localStorage.setItem('bdo2',t)}catch(e){}
+  if(!first&&V.p!='studio'&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName))render()}}
+ else if(first){ensureBots();push()}}catch(e){}
+ if(first){loaded=true;render()}}
+function cloudInit(){if(!cl)return;pull(1);setInterval(pull,8000)}
+const save=()=>{try{localStorage.setItem('bdo2',JSON.stringify(D))}catch(e){toast('Speicher voll – bitte kleinere Bilder verwenden.')}if(cl)push()};
+let S=null;try{S=JSON.parse(sessionStorage.getItem('bdos'))}catch(e){}
+const setS=v=>{S=v;try{sessionStorage.setItem('bdos',JSON.stringify(v))}catch(e){}};
+const ME=()=>S&&!S.admin?D.users.find(u=>u.id===S.id):null,UN=id=>id=='admin'?'Admin':(D.users.find(u=>u.id==id)||{}).name||'?';
+let V={p:'feed'},sel=new Set(),pz=0,fk='head',LT=0;
+const go=(p,u)=>{V={p,u};render()};
+const avH=(u,s)=>u&&u.av?`<img class=av style="width:${s}px;height:${s}px" src="${u.av}">`:`<div class=av style="width:${s}px;height:${s}px;font-size:${s/2}px${u?.col?';background:'+u.col:''}">${u?.em||E((u?.name||'?')[0])}</div>`;
+const rd=(f,m,cb)=>{if(!f)return;const r=new FileReader();r.onload=()=>{const i=new Image();i.onload=()=>{const s=Math.min(1,m/Math.max(i.width,i.height)),c=document.createElement('canvas');c.width=i.width*s;c.height=i.height*s;c.getContext('2d').drawImage(i,0,0,c.width,c.height);cb(c.toDataURL('image/jpeg',.82))};i.src=r.result};r.readAsDataURL(f)};
+
+function render(){render0();try{hyd()}catch(e){}}
+function render0(){
+ const app=$('#app');
+ if(!loaded){app.innerHTML='<p class=mu style="text-align:center;margin-top:20vh">Lade…</p>';return}
+ if(!S||(!S.admin&&!ME())){S=null;app.innerHTML=`<div class=login><h1>BALLON D’OR</h1><p class=mu>Die Social-Plattform für Champions</p><div class=card>
+ <div class=row style="justify-content:center"><button class="${LT?'b2':'b'}" onclick="LT=0;render()">Spieler</button><button class="${LT?'b':'b2'}" onclick="LT=1;render()">Admin</button></div>
+ ${LT?`<div class=row><input id=em type=email placeholder="E-Mail"></div><div class=row><input id=pw type=password placeholder="Passwort"></div><button class=b onclick=lg()>Als Admin einloggen</button>`
+ :`<div class=row><input id=cd placeholder="Dein 6-stelliger Code" inputmode=numeric maxlength=6></div><button class=b onclick=lg()>Einloggen</button>`}<p id=le class=err></p></div></div>`;return}
+ const me=ME(),on=p=>V.p==p?'on':'';
+ app.innerHTML=`<header><div class=logo>⚽ <b>BALLON D’OR</b> <span>SOCIAL</span></div><nav><button class="${on('feed')}" onclick="go('feed')">Feed</button><button class="${on('disc')}" onclick="go('disc')">Entdecken</button>${me?`<button class="${V.p=='prof'&&V.u==me.id?'on':''}" onclick="go('prof','${me.id}')">Profil</button><button class="${on('studio')}" onclick="go('studio')">3D-Studio</button><button class="${on('polls')}" onclick="go('polls')">Umfragen${unans(me)?' ('+unans(me)+')':''}</button>`:`<button class="${on('admin')}" onclick="go('admin')">Admin</button><button class="${on('polls')}" onclick="go('polls')">Umfragen</button>`}<button onclick="setS(null);render()">Logout</button></nav></header><main id=main></main>`;
+ if(V.p=='studio'&&me)return studio(me);
+ if(V.p=='admin'&&S.admin)return $('#main').innerHTML=adminH();
+ if(V.p=='prof')return $('#main').innerHTML=profH(V.u,me);
+ if(V.p=='disc')return $('#main').innerHTML=discH();
+ if(V.p=='polls')return $('#main').innerHTML=me?pollH(me):pollA();
+ $('#main').innerHTML=feedH(me);
+}
+function lg(){
+ if(LT){if($('#em').value.trim().toLowerCase()=='linobirke@gmail.com'&&$('#pw').value=='florin2010G'){setS({admin:1});V={p:'admin'};return render()}}
+ else{const u=D.users.find(x=>x.code==$('#cd').value.trim());if(u){setS({id:u.id});sel=new Set();V={p:'feed'};return render()}}
+ $('#le').textContent='Zugangsdaten falsch.'}
+const pH=p=>{const u=D.users.find(x=>x.id==p.u),k=S.admin?'admin':S.id;return `<article class=card><div class="row hd" onclick="${u?`go('prof','${p.u}')`:''}">${avH(u||{name:'Admin'},40)}<b>${E(UN(p.u))}</b>${u&&u.bot?'<span class=tag>FAN</span>':''}<span class=mu style="margin-left:auto;font-size:12px">${ago(p.ts)}</span></div>${p.img?`<img class=pi src="${p.img}">`:''}${p.t?`<p>${E(p.t)}</p>`:''}<div class=row><button class=lk onclick="lk('${p.id}')">${p.l.includes(k)?'❤️':'🤍'} ${p.l.length}</button>${S.admin||p.u==k?`<button class=lk onclick="delP('${p.id}')">🗑</button>`:''}</div>${p.c.map(c=>`<div class=cm><b>${E(c.n)}</b>${c.u?'<span class=tag>FAN</span>':''} ${E(c.t)}</div>`).join('')}<div class=row><input id="c${p.id}" placeholder="Kommentieren…"><button class=b2 onclick="com('${p.id}')">Senden</button></div></article>`};
+function feedH(me){return `<div class=people>${D.users.filter(u=>!u.bot).map(u=>`<div onclick="go('prof','${u.id}')">${avH(u,58)}${E(u.name)}</div>`).join('')}</div>`+
+ (`<div class=card><textarea id=pt placeholder="Was passiert gerade, ${E(me?me.name:'Admin')}?"></textarea><div class=row><input type=file id=pf accept="image/*"><button class=b onclick=post()>Posten</button></div></div>`)+
+ feedL(me)}
+function post(){const t=$('#pt').value.trim(),f=$('#pf').files[0],add=img=>{const id='p'+Date.now();D.posts.push({id,ts:Date.now(),u:S.admin?'admin':S.id,t,img,l:[],c:[]});save();render();toast('Gepostet!');react(id)};if(f)rd(f,900,add);else if(t)add('');else toast('Schreibe etwas oder wähle ein Bild.')}
+function lk(id){const p=D.posts.find(x=>x.id==id),k=S.admin?'admin':S.id,i=p.l.indexOf(k);i<0?p.l.push(k):p.l.splice(i,1);save();render()}
+function com(id){const v=$('#c'+id).value.trim();if(!v)return;D.posts.find(x=>x.id==id).c.push({n:S.admin?'Admin':ME().name,t:v});save();render()}
+function delP(id){ask('Beitrag löschen?',()=>{D.posts=D.posts.filter(x=>x.id!=id);save();render()})}
+function profH(id,me){const u=D.users.find(x=>x.id==id);if(!u)return'';const own=me&&me.id==id,aw=D.aw.filter(a=>a.uid==id),ps=D.posts.filter(p=>p.u==id&&p.img);
+ return (u.bn?`<img class=bn src="${u.bn}">`:'<div class=bn></div>')+`<div class=ph>${avH(u,96)}<div><h2>${E(u.name)}${u.bot?'<span class=tag>FAN</span>':''}</h2><span class="hd mu" onclick="showL('${id}',0)"><b style="color:var(--tx)">${nF(u)}</b> Follower</span> · <span class="hd mu" onclick="showL('${id}',1)"><b style="color:var(--tx)">${nG(u)}</b> Folge ich</span> ${me&&!own?`<button class="${isF(me,u)?'b2':'b'}" onclick="fw('${id}')">${isF(me,u)?'Entfolgen':'Folgen'}</button>`:''}</div></div><p style="margin:0 16px 14px">${E(u.bio)||'<span class=mu>Keine Bio.</span>'}</p>`+
+ (own?`<div class=card><h2>Profil bearbeiten</h2><div class=row><input id=pn value="${E(u.name)}" maxlength=24></div><textarea id=pb maxlength=200 placeholder="Bio">${E(u.bio)}</textarea>
+ <div class=row><label>Profilbild <input type=file accept="image/*" onchange="upI(this,'av',300)"></label><label>Banner <input type=file accept="image/*" onchange="upI(this,'bn',1200)"></label></div><button class=b onclick=saveP()>Speichern</button></div>`:'')+
+ `<div class=card><h2>Awards (${aw.length})</h2><div class=badges>${aw.map(a=>`<div class=badge>${IC[a.a]} ${AW[a.a]}<br><span class=mu>Saison ${E(a.s)}${a.m?' · Spieltag '+E(a.m):''}</span></div>`).join('')||'<span class=mu>Noch keine Awards.</span>'}</div></div>`+
+ D.posts.filter(p=>p.u==id).sort((a,b)=>(b.ts||0)-(a.ts||0)).slice(0,10).map(pH).join('')}
+function saveP(){const u=ME();u.name=$('#pn').value.trim()||u.name;u.bio=$('#pb').value;save();render()}
+function upI(el,k,m){rd(el.files[0],m,d=>{ME()[k]=d;save();render()})}
+
+/* ---------- BOTS / FOLGEN ---------- */
+let FT=0,BON=true;
+const BOTS=()=>D.users.filter(u=>u.bot),pick=a=>a[Math.floor(Math.random()*a.length)],rn=n=>Math.floor(Math.random()*n),isBot=id=>!!(D.users.find(u=>u.id==id)||{}).bot,
+isF=(a,b)=>a.id!=b.id&&((a.bot&&!b.bot)||(a.fo||[]).includes(b.id)),nF=u=>D.users.filter(x=>isF(x,u)).length,nG=u=>D.users.filter(x=>isF(u,x)).length;
+const FN=['Max','Luca','Emma','Jonas','Mia','Finn','Lea','Paul','Anna','Ben','Noah','Sofia','Leon','Emil','Hanna','Felix','Mila','Tim','Nele','Ole','Jana','Elias','Lina','Moritz','Clara','Tom','Ida','Ali','Yusuf','Aylin','Marco','Giulia','Pedro','Sven','Katja','Dario','Nils','Zoe','Arda','Maja'],
+SF=['Tor','Fan','Ultra','Kurve','Flanke','Libero','Elfer','Derby','Pokal','Hattrick','Grätsche','Rasen','Anstoß','Dribbel','Kapitän','Nordkurve','Südtribüne','Torjäger','Außenrist','Volley'],
+EM=['⚽','🔥','🏆','🥅','👟','🧤','🦁','🐺','🦅','⭐','💛','🖤','❤️','💙','🐐','👑'],CO=['#7a5c10','#8a2b2b','#1c2c5b','#0a6b3a','#5a2a7a','#b0122c','#2a6d8a','#6b4a1e','#444444','#a14a0a'],
+BIO=['Fußballfan durch und durch ⚽','Dauerkarte seit 2015 🎟️','Hobby-Torwart 🧤','Ballon-d’Or-Experte 🏆','Kommentiere jedes Spiel 📣','Nur für die Kurve 🔥','Tore, Tore, Tore!','Wochenende = Fußball','Fan seit Tag 1 ❤️','FIFA-Profi (im eigenen Kopf)'],
+TP=['Heute Training gesehen – die Jungs sind in Form ⚽🔥','Wer holt dieses Jahr den Ballon d’Or? Meine Stimme geht an {p}! 🏆','Spieltag-Vorfreude 😍','Was für ein Tor gestern! 🥅','Hat jemand das Puskás-Tor gesehen?! 🚀','Mein Tipp fürs nächste Spiel: 3:1 ✅','Kapitän {p} geht voran 💪','Unsere Verteidiger sind eine Mauer 🛡️','{p} – absoluter Wahnsinn heute 🔥','Wer ist heute dabei? Daumen drücken 🤞','Fan-Choreo fürs nächste Heimspiel ist geplant 📣','Best Dribbler? Für mich klar {p} 🪄','Niemand hat so einen Speed wie {p} ⚡','Beste Stimmung, bestes Team ❤️','Nach dem Spiel noch ein Eis 🍦 Was für ein Tag!','{p} für den Award der Saison! 👑'],
+CMP=['Stimmt absolut!','Hahaha 😂','Feier ich 🔥','Genau meine Meinung 👏','Starker Beitrag!','Respekt, weiter so 💪','Legende!','Mehr davon! 🙌'],
+CMI=['🔥🔥🔥','Was für ein Look!','Der Charakter ist krass 😍','Absolute Klasse 👏','Hammer Pose!','Das Trikot sitzt perfekt ⚽','Ballon d’Or verdient 🏆','GOAT 🐐','König 👑','Brutal gut gemacht!','Wahnsinn, wie detailliert 😮','Fan seit Tag 1 ❤️','Unfassbar stark','Wann kommt das Poster? 😂'],
+CMB=['Sehe ich genauso 👍','Haha, so ist es 😂','Wer wettet dagegen? 🤔','Da bin ich dabei!','Absolut!','Sehr gut erkannt','Dem schließe ich mich an ⚽','Mega 🔥','Nächste Woche gewinnen wir 3:0!','Gänsehaut pur 🥶'];
+function ago(t){if(!t)return'';const s=(Date.now()-t)/1000;return s<60?'jetzt':s<3600?`vor ${Math.floor(s/60)} Min`:s<86400?`vor ${Math.floor(s/3600)} Std`:`vor ${Math.floor(s/86400)} T`}
+function mkBots(n){D.nb=0;const used=new Set(D.users.map(u=>u.name));
+ for(let i=0;i<n;i++){let nm;do nm=pick(FN)+(Math.random()<.5?'_':'')+pick(SF)+(Math.random()<.3?rn(99):'');while(used.has(nm));used.add(nm);
+  D.users.push({id:'b'+Date.now().toString(36)+i,bot:1,name:nm,code:null,bio:pick(BIO),av:'',bn:'',col:pick(CO),em:pick(EM),fo:[]})}
+ const B=BOTS();B.forEach(b=>B.forEach(o=>{if(o!==b&&!b.fo.includes(o.id)&&Math.random()<.18)b.fo.push(o.id)}))}
+function botPost(t){const b=pick(BOTS()),pl=D.users.filter(u=>!u.bot);
+ D.posts.push({id:'p'+Date.now()+rn(9999),ts:Date.now(),u:b.id,t:t||botText(b),img:'',l:[],c:[]});
+ const bp=D.posts.filter(p=>isBot(p.u));if(bp.length>150){const del=new Set(bp.slice(0,bp.length-150).map(p=>p.id));D.posts=D.posts.filter(p=>!del.has(p.id))}}
+const recent=()=>D.posts.slice().sort((a,b)=>(b.ts||0)-(a.ts||0)).slice(0,18),
+addL=p=>{const b=pick(BOTS());if(!p.l.includes(b.id))p.l.push(b.id)},
+addC=p=>{const b=pick(BOTS());if(p.c.length>=40||p.c.some(c=>c.u==b.id))return;let t=cmt(p,b);const o=p.c.filter(c=>c.u&&c.u!=b.id);if(o.length&&Math.random()<.25)t='@'+pick(o).n+' '+pick(RP);p.c.push({n:b.name,u:b.id,t})},
+tgt=()=>{const R=recent(),PP=R.filter(p=>!isBot(p.u));return(PP.length&&Math.random()<.55?pick(PP):pick(R))};
+function botAct(){const r=Math.random();if(r<.13)botPost();else if(r<.55)addL(tgt());else addC(tgt())}
+function soft(){if(['feed','prof','disc'].includes(V.p)&&!$('#modal')&&!/INPUT|TEXTAREA|SELECT/.test((document.activeElement||{}).tagName||''))render()}
+function botTick(){if(!loaded||!BON||document.hidden||!BOTS().length||(cl&&Math.random()>.25))return;D.bt=Date.now();for(let i=0,n=1+rn(3);i<n;i++)botAct();save();soft()}
+function react(id){if(!BOTS().length)return;for(let i=0,n=8+rn(25);i<n;i++)setTimeout(()=>{const p=D.posts.find(x=>x.id==id);if(!p)return;addL(p);if(Math.random()<.22)addC(p);save();soft()},1500+Math.random()*30000)}
+function botAward(uid,a){const u=D.users.find(x=>x.id==uid);if(!u||!BOTS().length)return;for(let i=0,n=1+rn(3);i<n;i++)setTimeout(()=>{botPost(`🏆 Glückwunsch ${u.name} zum ${AW[a]}! ${pick(['Absolut verdient 👏','Was für eine Saison!','Hammer Leistung 🔥','Respekt!'])}`);save();soft()},2500+rn(9000))}
+function catchUp(){const now=Date.now(),b=D.bt||now,n=Math.min(25,Math.floor((now-b)/6e4));D.bt=now;if(n<1||!BOTS().length)return false;
+ for(let i=0;i<n;i++){const r=Math.random();if(r<.15){botPost();D.posts[D.posts.length-1].ts=b+rn(now-b)}else if(r<.6)addL(tgt());else addC(tgt())}return true}
+function ensureBots(){let ch=false;
+ if(!D.nb&&!BOTS().length){mkBots(70);const now=Date.now();for(let i=0;i<22;i++){botPost();const p=D.posts[D.posts.length-1];p.ts=now-(22-i)*2.2e6;for(let j=0,n=5+rn(25);j<n;j++)addL(p);for(let j=0,n=rn(4);j<n;j++)addC(p)}D.posts.sort((a,b)=>(a.ts||0)-(b.ts||0));ch=true}
+ if(catchUp())ch=true;if(ch)save()}
+function fw(id,d){const me=ME();if(!me)return;me.fo=me.fo||[];const i=me.fo.indexOf(id);i<0?me.fo.push(id):me.fo.splice(i,1);save();d?$('#dl').innerHTML=dl($('#sq').value):render()}
+function showL(id,m){const u=D.users.find(x=>x.id==id);modal(`<h2>${m?'Folge ich':'Follower'}</h2>`+D.users.filter(x=>m?isF(u,x):isF(x,u)).slice(0,80).map(x=>`<div class="row hd" onclick="closeM();go('prof','${x.id}')">${avH(x,34)}<b>${E(x.name)}</b>${x.bot?'<span class=tag>FAN</span>':''}</div>`).join('')+`<button class=b2 onclick=closeM()>Schließen</button>`)}
+function dl(q){q=q.toLowerCase();const me=ME();return D.users.slice().sort((a,b)=>(a.bot?1:0)-(b.bot?1:0)).filter(u=>u.name.toLowerCase().includes(q)).slice(0,60).map(u=>`<div class=row><div class=hd onclick="go('prof','${u.id}')" style="display:flex;gap:10px;align-items:center;flex:1">${avH(u,40)}<div><b>${E(u.name)}</b>${u.bot?'<span class=tag>FAN</span>':''}<br><span class=mu>${nF(u)} Follower</span></div></div>${me&&me.id!=u.id?`<button class="${isF(me,u)?'b2':'b'}" onclick="fw('${u.id}',1)">${isF(me,u)?'Entfolgen':'Folgen'}</button>`:''}</div>`).join('')||'<p class=mu>Nichts gefunden.</p>'}
+const discH=()=>`<div class=card><h2>Entdecken</h2><input id=sq placeholder="Spieler &amp; Fans suchen…" oninput="$('#dl').innerHTML=dl(this.value)" style="width:100%"><div id=dl>${dl('')}</div></div>`;
+function feedL(me){let L=D.posts.slice().sort((a,b)=>(b.ts||0)-(a.ts||0));if(FT&&me)L=L.filter(p=>p.u==me.id||(me.fo||[]).includes(p.u));
+ return `<div class=row><button class="chip ${FT?'':'on'}" onclick="FT=0;render()">Alle</button>${me?`<button class="chip ${FT?'on':''}" onclick="FT=1;render()">Folge ich</button>`:''}</div>`+(L.slice(0,40).map(pH).join('')||'<p class=mu>Noch nichts hier – folge Spielern und Fans über „Entdecken“.</p>')}
+const botCard=()=>`<div class=card><h2>Fans (Bots)</h2><p>${BOTS().length} Bots · Aktivität: <b>${BON?'an':'aus'}</b></p><div class=row><button class=b onclick="mkBots(20);save();render();toast('+20 Bots')">+20 Bots</button><button class=b2 onclick="BON=!BON;render()">Aktivität ${BON?'pausieren':'starten'}</button><button class=b2 onclick="ask('Alle Bots und ihre Beiträge löschen?',()=>{D.users=D.users.filter(u=>!u.bot);D.posts=D.posts.filter(p=>!isBot(p.u)&&!String(p.u).startsWith('b'));D.nb=1;save();render()})">Alle löschen</button></div></div>`;
+/* ---------- MEDIEN (Foto/Video) ---------- */
+const MAXB=50*1024*1024,MAXS=20,MU={};
+const idb=()=>new Promise((res,rej)=>{if(typeof indexedDB=='undefined')return rej(new Error('Lokaler Speicher nicht verfügbar'));const r=indexedDB.open('bdomedia',1);r.onupgradeneeded=()=>r.result.createObjectStore('m');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)}),
+idbPut=(k,b)=>idb().then(d=>new Promise((res,rej)=>{const t=d.transaction('m','readwrite');t.objectStore('m').put(b,k);t.oncomplete=res;t.onerror=()=>rej(t.error)})),
+idbGet=k=>idb().then(d=>new Promise(res=>{const q=d.transaction('m').objectStore('m').get(k);q.onsuccess=()=>res(q.result);q.onerror=()=>res(null)})).catch(()=>null),
+murl=id=>`${typeof CLOUD=='object'?CLOUD.url:''}/storage/v1/object/public/media/${id}`,
+vdur=f=>new Promise((res,rej)=>{const v=document.createElement('video'),u=URL.createObjectURL(f);v.preload='metadata';v.onloadedmetadata=()=>{URL.revokeObjectURL(u);res(v.duration)};v.onerror=()=>{URL.revokeObjectURL(u);rej(new Error('Video nicht lesbar'))};v.src=u});
+async function addMedia(files,target){
+ for(const f of files){const vid=(f.type||'').startsWith('video/'),img=(f.type||'').startsWith('image/');
+  if(!vid&&!img){toast('Nur Fotos und Videos erlaubt.');continue}
+  if(f.size>MAXB){toast('Datei ist größer als 50 MB: '+f.name);continue}
+  try{let blob=f;
+   if(vid){const d=await vdur(f);if(!(d<=MAXS+.4)){toast(`Video ist zu lang (${Math.round(d)} s, max. 20 s): ${f.name}`);continue}}
+   else blob=await new Promise(r=>rd(f,1400,u=>fetch(u).then(x=>x.blob()).then(r)));
+   const id='m'+Date.now().toString(36)+rn(1e6).toString(36);toast('Lade hoch…');
+   if(cl){const r=await fetch(`${CLOUD.url}/storage/v1/object/media/${id}`,{method:'POST',headers:{apikey:CLOUD.key,Authorization:'Bearer '+CLOUD.key,'Content-Type':blob.type||f.type,'x-upsert':'true'},body:blob});if(!r.ok)throw new Error('Upload '+r.status)}
+   else await idbPut(id,blob);
+   target({id,t:vid?'v':'i',c:cl?1:0})}
+  catch(e){toast('Upload fehlgeschlagen: '+(e.message||e))}}
+ render()}
+function hyd(){document.querySelectorAll('[data-m]').forEach(el=>{if(el.getAttribute('src'))return;const id=el.dataset.m;
+ (MU[id]?Promise.resolve(MU[id]):idbGet(id).then(b=>b?(MU[id]=URL.createObjectURL(b)):'')).then(u=>{if(u)el.src=u;else el.alt='Medium nur auf dem Gerät verfügbar, das es hochgeladen hat'})})}
+const mH=(m,sm)=>{const a=m.c?`src="${murl(m.id)}"`:`data-m="${m.id}"`,st=sm?'style="height:70px;width:auto;border-radius:8px;margin-right:6px;vertical-align:middle"':'class=pi style="max-height:340px;object-fit:contain;background:#000"';
+ return m.t=='v'?`<video ${a} ${st} controls playsinline preload=metadata></video>`:`<img ${a} ${st}>`},
+thumbs=(arr,ex)=>arr.map((m,i)=>`<span style="position:relative;display:inline-block">${mH(m,1)}<button class=lk style="position:absolute;top:-4px;right:2px;background:#000a;border-radius:50%;width:20px;height:20px;padding:0" onclick="${ex}.splice(${i},1);render()">✕</button></span>`).join(''),
+att=tf=>`<label class=b2 style="cursor:pointer;display:inline-block">📎 Foto/Video<input type=file accept="image/*,video/*" multiple hidden onchange="addMedia([...this.files],${tf})"></label>`,
+qm=q=>(q.media||[]).map(m=>mH(m)).join(''),
+im=(q,id)=>((q.lb||{})[id]?`<div class=mu style="margin-left:30px">${E(q.lb[id])}</div>`:'')+((q.im||{})[id]||[]).map(m=>mH(m)).join(''),
+df0=t=>({type:t,text:'',subj:[],media:[],im:{},lb:{}});
+function attachH(){let h=`<div class=row>${att('m=>DF.media.push(m)')}<span class=mu>Fotos &amp; Videos (max. 20 s, 50 MB je Datei)</span></div><div>${thumbs(DF.media,'DF.media')}</div>`;
+ if(DF.type=='rank'&&DF.subj.length)h+=`<h3 style="margin:10px 0 4px;color:var(--gold)">Aktionen der Spieler</h3>`+DF.subj.map(id=>`<div class=card style="margin:6px 0"><b>${E(nm(id))}</b><div class=row><input placeholder="Aktion beschreiben (optional)" value="${E(DF.lb[id]||'')}" oninput="DF.lb['${id}']=this.value">${att(`m=>(DF.im['${id}']=DF.im['${id}']||[]).push(m)`)}</div>${thumbs(DF.im[id]||[],`DF.im['${id}']`)}</div>`).join('');
+ return h}
+/* ---------- UMFRAGEN ---------- */
+const PO=()=>D.polls||(D.polls=[]),pls=()=>D.users.filter(u=>!u.bot),qv=(q,id)=>!q.subj.includes(id),pby=id=>PO().find(p=>p.id==id);
+let DR={title:'',qs:[]},DF=df0('rate'),SR=null;
+const unans=me=>PO().filter(p=>p.open).reduce((n,p)=>n+p.qs.filter(q=>qv(q,me.id)&&!((p.res||{})[q.id]||{})[me.id]).length,0),
+vot=p=>new Set(Object.values(p.res||{}).flatMap(o=>Object.keys(o))).size,
+nm=id=>(D.users.find(u=>u.id==id)||{}).name;
+/* Spieler */
+function qH(p,q,me){const a=((p.res||{})[q.id]||{})[me.id],ok=a!=null;
+ if(q.type=='rate')return `<div class=q><b>${E(q.text)}</b>${qm(q)}<br><span class=mu>Bewerte: </span><b style="color:var(--g2)">${E(nm(q.subj[0]))}</b><div class=chips style="margin-top:8px">${[1,2,3,4,5,6,7,8,9,10].map(n=>`<button class="chip ${a==n?'on':''}" onclick="ans('${p.id}','${q.id}',${n})">${n}</button>`).join('')}</div>${ok?'<span class=mu>✓ gespeichert – du kannst noch ändern</span>':''}</div>`;
+ const ord=(Array.isArray(a)?a:q.subj).filter(id=>nm(id));
+ return `<div class=q><b>${E(q.text)}</b>${qm(q)}<br><span class=mu>Sortiere von bester (oben) bis schlechtester (unten):</span>${ord.map((id,i)=>`<div class=row><b style="width:22px">${i+1}.</b>${avH(D.users.find(u=>u.id==id),30)}<span style="flex:1">${E(nm(id))}</span><button class=chip onclick="mv('${p.id}','${q.id}',${i},-1)">▲</button><button class=chip onclick="mv('${p.id}','${q.id}',${i},1)">▼</button></div>${im(q,id)}`).join('')}<button class="${ok?'b2':'b'}" onclick="ans('${p.id}','${q.id}',${JSON.stringify(ord).replace(/"/g,'&quot;')})">${ok?'✓ Gespeichert':'Reihenfolge bestätigen'}</button></div>`}
+function ans(pid,qid,v){const me=ME(),p=pby(pid);if(!me||!p||!p.open)return;p.res=p.res||{};(p.res[qid]=p.res[qid]||{})[me.id]=v;save();render()}
+function mv(pid,qid,i,d){const me=ME(),p=pby(pid),q=p.qs.find(x=>x.id==qid),a=((p.res||{})[qid]||{})[me.id],o=(Array.isArray(a)?a:q.subj).filter(id=>nm(id)).slice(),j=i+d;if(j<0||j>=o.length)return;[o[i],o[j]]=[o[j],o[i]];ans(pid,qid,o)}
+const pollH=me=>`<h2>Umfragen</h2>`+(PO().filter(p=>p.open&&p.qs.some(q=>qv(q,me.id))).map(p=>`<div class=card><h2 style="color:var(--gold)">${E(p.title)}</h2>${p.qs.filter(q=>qv(q,me.id)).map(q=>qH(p,q,me)).join('')}</div>`).join('')||'<p class=mu>Gerade gibt es keine offenen Umfragen für dich.</p>');
+/* Admin */
+const dn=q=>q.subj.map(nm).join(', ');
+function tg(id){const i=DF.subj.indexOf(id);i<0?DF.subj.push(id):DF.subj.splice(i,1);render()}
+function addQ(){const t=DF.text.trim();if(!t)return toast('Bitte einen Fragetext eingeben.');if(DF.type=='rate'&&DF.subj.length!=1)return toast('Bitte wählen, wer bewertet wird.');if(DF.type=='rank'&&DF.subj.length<2)return toast('Bitte mindestens 2 Spieler zum Sortieren wählen.');
+ const rk=DF.type=='rank',q={id:'q'+Date.now()+rn(999),type:DF.type,text:t,subj:DF.subj.slice(),media:DF.media.slice(),im:{},lb:{}};if(rk)DF.subj.forEach(id=>{q.im[id]=(DF.im[id]||[]).slice();if((DF.lb[id]||'').trim())q.lb[id]=DF.lb[id].trim()});DR.qs.push(q);DF=df0(DF.type);render()}
+function pubP(){if(!DR.title.trim())return toast('Bitte einen Titel eingeben.');if(!DR.qs.length)return toast('Füge mindestens eine Frage hinzu.');
+ PO().push({id:'po'+Date.now(),title:DR.title.trim(),open:true,qs:DR.qs,res:{},ts:Date.now()});DR={title:'',qs:[]};save();toast('Umfrage veröffentlicht!');render()}
+const ptg=id=>{const p=pby(id);p.open=!p.open;save();render()},dpo=id=>ask('Umfrage mit allen Antworten löschen?',()=>{D.polls=PO().filter(p=>p.id!=id);save();render()});
+function resH(p){return p.qs.map(q=>{const r=(p.res||{})[q.id]||{},v=Object.entries(r);let h=`<div class=q><b>${E(q.text)}</b> <span class=mu>(${q.type=='rate'?'Bewertung':'Sortierung'} · ${E(dn(q))} · ${v.length} Stimmen)</span><div>${(q.media||[]).map(m=>mH(m,1)).join('')}</div>`;
+ if(!v.length)return h+'<br><span class=mu>Noch keine Antworten.</span></div>';
+ if(q.type=='rate'){const c=Array(10).fill(0);v.forEach(x=>c[x[1]-1]++);const m=Math.max(...c),avg=v.reduce((s,x)=>s+x[1],0)/v.length;
+  h+=`<div style="font-size:28px;color:var(--g2);font-family:'Playfair Display',serif">Ø ${avg.toFixed(2)}</div><div style="display:flex;align-items:flex-end;gap:3px;height:50px">${c.map(n=>`<div style="flex:1;background:var(--gold);height:${n/m*100}%;min-height:2px"></div>`).join('')}</div><div style="display:flex;gap:3px;font-size:11px;text-align:center" class=mu>${c.map((n,i)=>`<div style="flex:1">${i+1}<br>${n}×</div>`).join('')}</div>`;
+  h+=`<details><summary class=mu>Einzelstimmen</summary>${v.map(x=>`${E(nm(x[0])||'?')}: <b>${x[1]}</b>`).join(' · ')}</details>`}
+ else{const sc={};v.forEach(x=>(x[1]||[]).forEach((id,i)=>{sc[id]=sc[id]||{r:0,n:0};sc[id].r+=i+1;sc[id].n++}));
+  h+=`<ol>${Object.entries(sc).filter(x=>nm(x[0])).sort((a,b)=>a[1].r/a[1].n-b[1].r/b[1].n).map(x=>`<li><b>${E(nm(x[0]))}</b> <span class=mu>Ø Platz ${(x[1].r/x[1].n).toFixed(2)}</span></li>`).join('')}</ol>`;
+  h+=`<details><summary class=mu>Einzelstimmen</summary>${v.map(x=>`<div>${E(nm(x[0])||'?')}: ${(x[1]||[]).map(id=>E(nm(id)||'?')).join(' › ')}</div>`).join('')}</details>`}
+ return h+'</div>'}).join('')}
+function pollA(){const P=pls();
+ return `<div class=card><h2>Neue Umfrage</h2><div class=row><input placeholder="Titel der Umfrage" value="${E(DR.title)}" oninput="DR.title=this.value"></div>
+ <h3 style="margin:10px 0 4px;color:var(--gold)">Frage hinzufügen</h3>
+ <div class=row><select onchange="DF.type=this.value;DF.subj=[];DF.im={};DF.lb={};render()"><option value=rate ${DF.type=='rate'?'selected':''}>Bewertung 1–10</option><option value=rank ${DF.type=='rank'?'selected':''}>Sortierung</option></select><input placeholder="Fragetext, z. B. Wie war sein Spiel?" value="${E(DF.text)}" oninput="DF.text=this.value"></div>
+ ${DF.type=='rate'?`<div class=row><span>Wer wird bewertet?</span><select onchange="DF.subj=this.value?[this.value]:[]"><option value="">– Spieler wählen –</option>${P.map(u=>`<option value="${u.id}" ${DF.subj[0]==u.id?'selected':''}>${E(u.name)}</option>`).join('')}</select></div>`
+ :`<p class=mu>Welche Spieler werden sortiert?</p><div class=chips>${P.map(u=>`<button class="chip ${DF.subj.includes(u.id)?'on':''}" onclick="tg('${u.id}')">${E(u.name)}</button>`).join('')}</div>`}
+ ${attachH()}<p class=mu>🔒 Die ausgewählten Spieler sehen diese Frage nicht.</p>
+ <div class=row><button class=b2 onclick=addQ()>+ Frage hinzufügen</button></div>
+ ${DR.qs.length?`<h3 style="margin:10px 0 4px;color:var(--gold)">Fragen in dieser Umfrage</h3>`+DR.qs.map((q,i)=>`<div class=row><span>${q.type=='rate'?'⭐':'↕️'}</span><span style="flex:1">${E(q.text)} <span class=mu>(${E(dn(q))})</span></span><button class=lk onclick="DR.qs.splice(${i},1);render()">🗑</button></div>`).join(''):''}
+ <div class=row><button class=b onclick=pubP()>Umfrage veröffentlichen</button></div></div>`+
+ (PO().slice().reverse().map(p=>`<div class=card><div class=row><h2 style="flex:1">${E(p.title)}</h2><span class=tag>${p.open?'OFFEN':'GESCHLOSSEN'}</span></div><p class=mu>${p.qs.length} Fragen · ${vot(p)} Teilnehmer</p><div class=row><button class=b2 onclick="SR=SR=='${p.id}'?null:'${p.id}';render()">${SR==p.id?'Ergebnisse ausblenden':'Ergebnisse'}</button><button class=b2 onclick="ptg('${p.id}')">${p.open?'Schließen':'Wieder öffnen'}</button><button class=lk onclick="dpo('${p.id}')">🗑</button></div>${SR==p.id?resH(p):''}</div>`).join('')||'<p class=mu>Noch keine Umfragen erstellt.</p>');}
+/* ---------- SMARTE FANS (Titel, Stats, Persönlichkeit) ---------- */
+CMP.push('Da steckt Arbeit dahinter 👏','Gefällt mir sehr','Besser als jede Fernsehübertragung 😄','Das macht Lust auf den nächsten Spieltag','Immer wieder gut, was von dir kommt','Echt sympathisch, weiter so','Erster! …oder zumindest einer der ersten 😂');
+CMI.push('Wer hat dich so gut gemacht? 😍','Das Licht auf dem Bild – Wahnsinn','Sofort als Poster an die Wand','Mehr Details gehen kaum 😮','Das Gesicht, die Pose, alles stimmt','Sieht aus wie ein Sammelkarten-Motiv 🃏');
+CMB.push('Spannende Sicht, ich bin gespannt 🤔','Wetten, dass das Samstag wieder so läuft?','Interessant, da muss ich länger drüber nachdenken','Darauf einen Kaffee ☕','Diskussion eröffnet 🍿');
+const RP=['Genau!','Seh ich auch so 👍','Haha 😂','Stimmt!','Ganz meine Meinung','Na ja, ich weiß nicht… 🤔','Sehr gut erkannt','Dem stimme ich zu ⚽','Das sehe ich anders, aber egal 😄','Wort für Wort unterschrieben'],
+STY=['hype','hype','analyst','joker','kurz','fan'],LAST=[],
+AWC=[['Das Tor des Tages war ein Traum! 🥅','Tor des Tages – ich hab’s fünfmal angeschaut'],['Ballon-d’Or-Gewinner {n}!! 👑','Der Ballon d’Or sitzt, absolut verdient 🏆','Saison {s}: Ballon d’Or für {n} – kein Zweifel'],['Dieses Puskás-Tor vergesse ich nie 🚀','Puskás Award? Natürlich, bei dem Tor!'],['Kapitän {n}, du führst das Team 💪','Mit der Binde am Arm bist du Gold wert'],['Beste Spieltagsleistung – was ein Auftritt!','Dieser Spieltag gehörte dir allein 🔥'],['Was für eine Entwicklung! Von Spiel zu Spiel besser 📈','Die Entwicklung der Saison {s}: Respekt'],['Die Abwehr-Mauer 🛡️ Da kommt keiner vorbei','Best Defensive Player – da geht nichts durch'],['Dieser Schuss… 🎯 eine Rakete!','Best Shot – der Ball hat noch geglüht'],['Bester Torwart, keine Frage 🧤','Mit den Handschuhen bist du eine Wand'],['Niemand ist schneller ⚡','Highest Speed – ich hab nur Staub gesehen 💨'],['Ohne deine Vorlagen kein Tor 🎯','Bester Assister – der Pass war Millimeterarbeit'],['Dribbelkönig 🪄','Best Dribbler – da fällt jeder Gegner um 😂']];
+const ctxName=(u,k)=>(u.ch||{})[k];
+function facts(u){const mine=D.aw.filter(a=>a.uid==u.id),pl=D.users.filter(x=>!x.bot).map(x=>({u:x,n:D.aw.filter(a=>a.uid==x.id).length})).sort((a,b)=>b.n-a.n);
+ return{n:mine.length,aw:mine,rank:pl.findIndex(x=>x.u.id==u.id)+1,top:pl[0]&&pl[0].n?pl[0].u:null,tn:pl[0]?pl[0].n:0,f:nF(u),lk:D.posts.filter(p=>p.u==u.id).reduce((s,p)=>s+p.l.length,0),np:D.posts.filter(p=>p.u==u.id).length}}
+function fill(t,u,x){const a0=x.aw.length?pick(x.aw):null,T=TEAMS[ctxName(u,'team')||0].n;return t.replace(/\{n\}/g,u.name).replace(/\{k\}/g,x.n).replace(/\{f\}/g,x.f).replace(/\{s\}/g,a0?a0.s:'').replace(/\{a\}/g,a0?AW[a0.a]:'').replace(/\{l\}/g,x.lk).replace(/\{T\}/g,T).replace(/\{N\}/g,ctxName(u,'num')==null?10:ctxName(u,'num'))}
+function pool(p,u){const x=facts(u),c=u.ch||{},o=[],add=(arr,w)=>{for(let i=0;i<(w||1);i++)o.push(...arr)};
+ x.aw.forEach(a=>(AWC[a.a]||[]).forEach(t=>o.push(t.replace('{s}',a.s))));
+ if(x.n>=3)add(['{k} Awards schon – Wahnsinn! 🏆','Titelsammler {n}! {k} Auszeichnungen 😮','Bei {k} Awards verliert man den Überblick 😂','{k}× ausgezeichnet und kein bisschen müde 💪'],2);
+ if(x.n==1)add(['Dein erster Award ist erst der Anfang!','Einmal ausgezeichnet, jetzt kommt der nächste 😉']);
+ if(x.n==0)add(['Der erste Award kommt bestimmt 🙌','Noch kein Titel? Das ändert sich bald!']);
+ if(x.rank==1&&x.n>0)add(['Nr. 1 in der Award-Tabelle 👑','Tabellenführer bei den Awards – {n} ist nicht zu stoppen','Kein anderer hat mehr Titel als {n} 🏆'],2);
+ else if(x.n>0&&x.top)add([`{n} jagt ${x.top.name} in der Award-Tabelle 👀`,`Nur noch ${x.tn-x.n} Award${x.tn-x.n>1?'s':''} bis zur Spitze 📈`]);
+ if(x.f>=80)add(['Schon {f} Follower – verdient 🔥','{f} Follower, da geht noch mehr!']);
+ if(x.lk>40)add(['{l} Likes insgesamt – die Fans lieben dich ❤️']);
+ if(p.img){add(['Das {T}-Trikot steht dir richtig gut ⚽','Nummer {N} – passt zu dir!','{T} sieht mit dir besser aus 😄','Das Trikot von {T}, Hammer 🔥'],2);
+  if(c.beard)add(['Der Bart 😂🔥','Respekt für den Bart!']);if(c.hat==3)add(['Die Krone steht dir – King {n} 👑']);if(c.glass==3)add(['Sonnenbrille an – Star-Look 😎']);if(c.hair==3)add(['Der Afro 😍']);if(c.hair==4)add(['Der Irokese ist Kult 🔥']);if(c.hat==5)add(['Lorbeerkranz – wie ein Held der Antike 🏛️']);if(c.nk==3)add(['Der Fan-Schal sitzt perfekt 💛']);if(c.cap)add(['Kapitänsbinde! Wer sonst 💪']);if(c.var==3)add(['Torwart-Look in Neon 🧤']);if(c.tt)add(['Die Tattoos sind stark 🖤'])}
+ else{const t=(p.t||'').toLowerCase();if(/tor|treffer/.test(t))add(['Tore, Tore, Tore! ⚽','Der Torjäger hat gesprochen']);if(/training/.test(t))add(['Training zahlt sich aus 💪']);if(/award|ballon|titel/.test(t))add(['Das hast du dir verdient 🏆']);if(/danke/.test(t))add(['Dafür nicht! Weiter so ❤️']);if(/\?/.test(t))add(['Gute Frage… ich sage: ja 😄','Da muss ich kurz überlegen 🤔'])}
+ return o}
+function sty(b,t,u){b.st=b.st||pick(STY);const r=Math.random();
+ if(b.st=='hype'&&r<.45)t+=' '+pick(['🔥','🔥🔥','💯','🙌','⚽🔥','!!']);
+ else if(b.st=='analyst'&&r<.4)t=pick(['Statistisch gesehen: ','Objektiv betrachtet: ','Die Datenlage ist eindeutig: '])+t;
+ else if(b.st=='joker'&&r<.4)t+=pick([' 😂',' (nicht lachen)',' 🤣🤣',' – Mama wäre stolz']);
+ else if(b.st=='kurz'&&r<.7){t=t.split(/[!–.]/)[0].trim();if(!t||t.length<2)t=pick(['wow','stark','🔥','top','nice'])}
+ else if(b.st=='fan'&&r<.25)t=pick(['Fan seit Tag 1: ','Als Dauerkartenbesitzer: ','Aus der Kurve: '])+t;
+ if(u&&Math.random()<.14&&!t.includes(u.name))t=u.name+', '+t.charAt(0).toLowerCase()+t.slice(1);
+ return t}
+function cmt(p,b){b=b||pick(BOTS());const u=D.users.find(x=>x.id==p.u);let ctx=u&&!u.bot?u:null,src;
+ if(!ctx&&u){ctx=D.users.find(x=>!x.bot&&(p.t||'').includes(x.name))||null}
+ if(u&&!u.bot){const pl=pool(p,u);src=pl.length&&Math.random()<.78?pl:(p.img?CMI:CMP)}
+ else if(ctx)src=pool({},ctx).concat(CMB);else src=CMB;
+ let t,k=0;do{const raw=pick(src);t=sty(b,ctx?fill(raw,ctx,facts(ctx)):raw,u&&!u.bot?u:null)}while((LAST.includes(t)||p.c.some(c=>c.t==t))&&++k<8);
+ LAST.push(t);if(LAST.length>40)LAST.shift();return t}
+function botText(b){const pl=D.users.filter(u=>!u.bot);if(!pl.length)return pick(TP).replace('{p}','unser Team');const u=pick(pl),x=facts(u),T=TEAMS[ctxName(u,'team')||0].n;let t;
+ if(Math.random()<.5)t=pick(TP).replace(/\{p\}/g,u.name);
+ else t=pick([`Award-Tabelle: ${x.top?x.top.name:u.name} führt mit ${x.tn||0} Titeln 🏆`,`${u.name} hat schon ${x.f} Follower – und es werden mehr! 📈`,`${u.name} im ${T}-Trikot, Nummer ${ctxName(u,'num')==null?10:ctxName(u,'num')} – Klassiker 🔥`,x.n?`${u.name}: ${x.n} Award${x.n>1?'s':''}, zuletzt „${AW[x.aw[x.aw.length-1].a]}“ 👏`:`${u.name} wartet noch auf den ersten Titel – ich glaube an dich 🙌`,`Wer wird Spieler der Saison? Ich sage ${u.name}! 🗳️`,`Statistik-Moment: ${x.np} Beiträge von ${u.name} und ${x.lk} Likes dazu 🤓`,`Heute im ${T}-Trikot unterwegs? ${u.name} macht’s vor ⚽`]);
+ return sty(b,t)}
+function botAward(uid,a,s,m){const u=D.users.find(x=>x.id==uid);if(!u||!BOTS().length)return;
+ const V=[`🏆 Glückwunsch ${u.name} zum ${AW[a]}! Absolut verdient 👏`,`${AW[a]} ${s||''}: ${u.name}! Was für eine Leistung 🔥`,`Titel Nummer ${D.aw.filter(x=>x.uid==uid).length} für ${u.name} – ${AW[a]} 🏆`,m?`Spieltag ${m}: ${u.name} räumt den ${AW[a]} ab! 🎯`:`${u.name} holt den ${AW[a]} – Respekt! 💪`,`Wer sonst als ${u.name}? ${AW[a]} geht klar 👑`];
+ for(let i=0,n=1+rn(3);i<n;i++)setTimeout(()=>{botPost(pick(V));save();soft()},2500+rn(9000))}
+function setLight(i){if(!Sc)return;Sc.children.forEach(o=>{if(o.isHemisphereLight)o.intensity=[.6,1,.25][i];else if(o.isDirectionalLight)o.intensity=o.castShadow?[1,1.2,1.5][i]:[.7,.8,.2][i]})}
+/* ---------- WAPPEN ---------- */
+const CODES='ALG ARG AUS AUT BEL BIH BRA CAN CPV COL CRO CUW CZE COD ECU EGY ENG FRA GER GHA HAI IRN IRQ CIV JPN JOR MEX MAR NED NZL NOR PAN PAR POR QAT KSA SCO SEN RSA KOR ESP SWE SUI TUN TUR USA URU UZB'.split(' '),
+EN='Algeria,Argentina,Australia,Austria,Belgium,Bosnia and Herzegovina,Brazil,Canada,Cape Verde,Colombia,Croatia,Curacao,Czechia,DR Congo,Ecuador,Egypt,England,France,Germany,Ghana,Haiti,Iran,Iraq,Ivory Coast,Japan,Jordan,Mexico,Morocco,Netherlands,New Zealand,Norway,Panama,Paraguay,Portugal,Qatar,Saudi Arabia,Scotland,Senegal,South Africa,South Korea,Spain,Sweden,Switzerland,Tunisia,Turkey,USA,Uruguay,Uzbekistan'.split(','),
+nz=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,''),CRT={};
+function crestTex(k,v){const cr=(D.crests||{})[TEAMS[k].n]||'',[m,t]=kitCols(k,v),key=[k,v,cr.length,cr.slice(-24)].join('|');if(CRT[key])return CRT[key];
+ const cv=document.createElement('canvas');cv.width=cv.height=128;const x=cv.getContext('2d'),tx=new THREE.CanvasTexture(cv);
+ if(cr){const im=new Image();im.onload=()=>{x.clearRect(0,0,128,128);const s=Math.min(128/im.width,128/im.height);x.drawImage(im,(128-im.width*s)/2,(128-im.height*s)/2,im.width*s,im.height*s);tx.needsUpdate=true};im.src=cr}
+ else{x.beginPath();x.moveTo(16,14);x.lineTo(112,14);x.lineTo(112,70);x.quadraticCurveTo(108,106,64,120);x.quadraticCurveTo(20,106,16,70);x.closePath();x.fillStyle=m;x.fill();x.lineWidth=9;x.strokeStyle=t;x.stroke();
+  x.fillStyle=lum(m)>.55?'#111111':'#ffffff';x.font='bold 36px Arial,sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText(CODES[k],64,66)}
+ return CRT[key]=tx}
+function crestMesh(p,c,x,y,z){const m=new THREE.Mesh(new THREE.PlaneGeometry(.1,.1),new THREE.MeshBasicMaterial({map:crestTex(c.team,c.var),transparent:true,side:THREE.DoubleSide}));m.position.set(x,y,z);m.rotation.y=.3;p.add(m);return m}
+function crestImg(f){return new Promise((res,rej)=>{const u=URL.createObjectURL(f),im=new Image();im.onload=()=>{const s=Math.min(1,160/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.max(1,Math.round(im.width*s));c.height=Math.max(1,Math.round(im.height*s));c.getContext('2d').drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);res(c.toDataURL('image/png'))};im.onerror=()=>{URL.revokeObjectURL(u);rej()};im.src=u})}
+async function upCrest(files,i){const cr=D.crests=D.crests||{};let ok=0,bad=0;
+ for(const f of files){let k=i;if(k==null){const b=nz(f.name.replace(/\.[^.]+$/,''));k=TEAMS.findIndex((t,j)=>nz(t.n)==b||nz(CODES[j])==b||nz(EN[j])==b)}
+  if(k<0){bad++;continue}try{cr[TEAMS[k].n]=await crestImg(f);ok++}catch(e){bad++}}
+ save();render();toast(`${ok} Wappen gespeichert${bad?`, ${bad} nicht erkannt`:''}`)}
+const delCr=i=>{delete D.crests[TEAMS[i].n];save();render()};
+function crestA(){const cr=D.crests||{};return `<div class=card><h2>Wappen der Nationalmannschaften</h2><p class=mu>Lade die offiziellen Wappen selbst hoch (PNG, SVG oder JPG). Sie erscheinen auf der linken Brust der Trikots. Ohne Upload zeigt die App ein neutrales Emblem mit Ländercode.</p>
+ <div class=row><label class=b style="cursor:pointer">Mehrere auf einmal hochladen<input type=file accept="image/*" multiple hidden onchange="upCrest([...this.files],null)"></label><span class=mu>Dateiname = Teamname, Code oder englischer Name, z. B. <code>Deutschland.png</code> oder <code>GER.png</code></span></div>
+ <p>${Object.keys(cr).length} von 48 hinterlegt</p><div class=grid style="grid-template-columns:repeat(auto-fill,minmax(110px,1fr))">${TEAMS.map((t,i)=>`<div class=card style="padding:8px;text-align:center;margin:0">${cr[t.n]?`<img src="${cr[t.n]}" style="width:56px;height:56px;object-fit:contain;aspect-ratio:auto">`:`<div style="width:56px;height:56px;margin:auto;border-radius:10px;background:${t.m};color:${lum(t.m)>.55?'#111':'#fff'};display:flex;align-items:center;justify-content:center;font-weight:800;border:3px solid ${t.t}">${CODES[i]}</div>`}<div style="font-size:12px;margin:4px 0">${E(t.n)}</div><label class=chip style="cursor:pointer">Hochladen<input type=file accept="image/*" hidden onchange="upCrest([...this.files],${i})"></label>${cr[t.n]?`<button class=lk onclick="delCr(${i})">🗑</button>`:''}</div>`).join('')}</div></div>`}
+/* ---------- TRIKOT-DESIGNER: Logo, Vorschau ---------- */
+function logoTex(c,S){if(c.km!=1)return crestTex(c.team,c.var);
+ const key=['L',c.lg,c.lc,(c.lgi||'').length,(c.lgi||'').slice(-20),S.m].join('|');if(LGT[key])return LGT[key];
+ const cv=document.createElement('canvas');cv.width=cv.height=128;const x=cv.getContext('2d'),tx=new THREE.CanvasTexture(cv);x.fillStyle=x.strokeStyle=c.lc;x.lineWidth=8;x.lineJoin='round';
+ const poly=p=>{x.beginPath();p.forEach((q,i)=>i?x.lineTo(q[0],q[1]):x.moveTo(q[0],q[1]));x.closePath();x.fill()};
+ switch(c.lg){
+ case 1:{const p=[];for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,r=i%2?26:60;p.push([64+Math.cos(a)*r,66+Math.sin(a)*r])}poly(p);break}
+ case 2:{x.beginPath();x.arc(64,64,52,0,7);x.stroke();const p=[];for(let i=0;i<5;i++){const a=-Math.PI/2+i*2*Math.PI/5;p.push([64+Math.cos(a)*20,64+Math.sin(a)*20]);x.beginPath();x.moveTo(64+Math.cos(a)*20,64+Math.sin(a)*20);x.lineTo(64+Math.cos(a)*52,64+Math.sin(a)*52);x.stroke()}poly(p);break}
+ case 3:poly([[16,100],[16,40],[44,70],[64,28],[84,70],[112,40],[112,100]]);x.fillRect(16,104,96,14);break;
+ case 4:poly([[74,8],[28,72],[58,72],[46,122],[102,52],[70,52]]);break;
+ case 5:x.beginPath();x.moveTo(64,112);x.bezierCurveTo(6,70,24,18,64,50);x.bezierCurveTo(104,18,122,70,64,112);x.fill();break;
+ case 6:x.beginPath();x.moveTo(64,8);x.bezierCurveTo(100,48,112,82,64,120);x.bezierCurveTo(16,82,28,48,64,8);x.fill();break;
+ case 7:x.beginPath();x.moveTo(16,14);x.lineTo(112,14);x.lineTo(112,70);x.quadraticCurveTo(108,106,64,120);x.quadraticCurveTo(20,106,16,70);x.closePath();x.fill();break;
+ case 8:if(c.lgi){const im=new Image();im.onload=()=>{x.clearRect(0,0,128,128);const s=Math.min(128/im.width,128/im.height);x.drawImage(im,(128-im.width*s)/2,(128-im.height*s)/2,im.width*s,im.height*s);tx.needsUpdate=true};im.src=c.lgi}}
+ return LGT[key]=tx}
+function logoMesh(p,c,SP,bw){const nat=c.km!=1;if(!nat&&!c.lg)return;const tex=logoTex(c,SP),s=nat?.1:[.08,.11,.15][c.ls],lp=nat?0:c.lp,m=new THREE.Mesh(new THREE.PlaneGeometry(s,s),new THREE.MeshBasicMaterial({map:tex,transparent:true,side:THREE.DoubleSide}));
+ m.position.set(lp==1?0:(lp==0?.1:-.1)*bw,lp==1?.45:.48,lp==1?.162:.15);m.rotation.y=lp==1?0:(lp==0?.3:-.3);p.add(m)}
+function drawPrev(ch){const cvs=document.getElementById('jp');if(!cvs)return;const c=Object.assign(defC(),ch),S=kitSpec(c),tx=kitTex(S).image,x=cvs.getContext('2d'),W=tx.width,Ht=tx.height;x.clearRect(0,0,360,190);
+ const shirt=(ox,front)=>{x.save();x.translate(ox,0);
+  const path=()=>{x.beginPath();x.moveTo(50,12);x.lineTo(110,12);x.lineTo(150,46);x.lineTo(128,76);x.lineTo(122,66);x.lineTo(122,176);x.lineTo(38,176);x.lineTo(38,66);x.lineTo(32,76);x.lineTo(10,46);x.closePath()};
+  path();x.fillStyle=S.sl;x.fill();x.save();x.beginPath();x.rect(38,12,84,164);x.clip();
+  if(front){x.drawImage(tx,W*.75,0,W*.25,Ht,38,12,42,164);x.drawImage(tx,0,0,W*.25,Ht,80,12,42,164)}else x.drawImage(tx,W*.25,0,W*.5,Ht,38,12,84,164);
+  x.restore();x.beginPath();x.ellipse(80,14,17,8,0,0,Math.PI);x.fillStyle=S.a;x.fill();x.strokeStyle='rgba(0,0,0,.45)';x.lineWidth=1;path();x.stroke();
+  if(front&&(c.km!=1||c.lg)){const lt=logoTex(c,S),s=c.km==1?[22,30,40][c.ls]:26,p=c.km==1?c.lp:0;try{x.drawImage(lt.image,(p==1?80:p==0?100:60)-s/2,30,s,s)}catch(e){}}
+  x.restore()};
+ shirt(5,true);shirt(185,false);x.fillStyle='#9c917a';x.font='11px Inter,sans-serif';x.textAlign='center';x.fillText('Vorn',85,188);x.fillText('Hinten',265,188)}
+function tmpl(){const m=ME(),S=kitSpec(Object.assign(defC(),m.ch,{km:0,nm:m.name}));Object.assign(m.ch,{km:1,k1:S.m,k2:S.t,k3:S.a,kp:S.pat,kni:Math.max(0,Math.min(6,Math.round((S.n-4)/2))),ks:0,lg:0});save();refresh();toast('Vorlage übernommen – jetzt anpassen!')}
+function upLogo(f){if(!f)return;crestImg(f).then(u=>{const m=ME();m.ch.lgi=u;m.ch.lg=8;save();refresh()}).catch(()=>toast('Bild konnte nicht gelesen werden.'))}
+/* ---------- ADMIN ---------- */
+function adminH(){return adminH0()+crestA()+botCard()}
+function adminH0(){const o=D.users.filter(u=>!u.bot).map(u=>`<option value="${u.id}">${E(u.name)}</option>`).join('');
+ return `<div class=card><h2>Neuen Account erstellen</h2><div class=row><input id=nn placeholder="Name"><button class=b onclick=addU()>Erstellen + Code generieren</button></div>
+ <table>${D.users.filter(u=>!u.bot).map(u=>`<tr><td>${E(u.name)}</td><td><code>${u.code}</code></td><td><button class=lk onclick="delU('${u.id}')">🗑</button></td></tr>`).join('')}</table></div>
+ <div class=card><h2>Award vergeben</h2><div class=row><select id=au>${o}</select><select id=aa>${AW.map((a,i)=>`<option value=${i}>${IC[i]} ${a}</option>`).join('')}</select></div>
+ <div class=row><input id=as placeholder="Saison, z. B. 2026/27"><input id=am type=number min=1 placeholder="Spieltag (optional)"><button class=b onclick=giveA()>Vergeben</button></div>
+ <table>${D.aw.map((a,i)=>`<tr><td>${E(UN(a.uid))}</td><td>${IC[a.a]} ${AW[a.a]}</td><td>${E(a.s)}${a.m?' / ST '+E(a.m):''}</td><td><button class=lk onclick="delA(${i})">🗑</button></td></tr>`).join('')}</table></div>`}
+function addU(){const n=$('#nn').value.trim();if(!n)return;let c;do c=String(Math.floor(Math.random()*1e6)).padStart(6,'0');while(D.users.some(u=>u.code==c));D.users.push({id:'u'+Date.now(),name:n,code:c,bio:'',av:'',bn:'',ch:defC()});save();render()}
+function delU(id){ask('Account löschen?',()=>{D.users=D.users.filter(u=>u.id!=id);D.aw=D.aw.filter(a=>a.uid!=id);D.posts=D.posts.filter(p=>p.u!=id);save();render()})}
+function giveA(){const s=$('#as').value.trim();if(!s)return toast('Bitte eine Saison angeben.');const o={uid:$('#au').value,a:+$('#aa').value,s,m:$('#am').value};D.aw.push(o);botAward(o.uid,o.a,o.s,o.m);save();render()}
+function delA(i){D.aw.splice(i,1);save();render()}
+
+/* ---------- 3D ---------- */
+const A=(p,geo,col,x,y,z,mt)=>{const m=new THREE.Mesh(geo,new THREE.MeshPhongMaterial({color:col,shininess:mt?110:25,specular:mt?0xfff2b0:0x222222,side:THREE.DoubleSide}));m.position.set(x||0,y||0,z||0);m.castShadow=m.receiveShadow=true;p.add(m);return m},
+cy=(a,b,h,s,o)=>new THREE.CylinderGeometry(a,b,h,s||16,1,o),sp=r=>new THREE.SphereGeometry(r,20,16),bx=(a,b,d)=>new THREE.BoxGeometry(a,b,d),to=(r,t,s,a)=>new THREE.TorusGeometry(r,t,8,s||20,a),
+cap=(r,t)=>new THREE.SphereGeometry(r,20,12,0,Math.PI*2,0,Math.PI*t);
+const S3=(o,x,y,z)=>{o.scale.set(x,y,z);return o},LA=p=>new THREE.LatheGeometry(p.map(a=>new THREE.Vector2(a[0],a[1])),32),GD='#e0b53a',R9=Math.PI/2,tilt=(o,a)=>{o.rotation.x=a;return o};
+const PZ=[
+{n:'Stehen',a:[[0,-.1],[0,.12]],e:[[-.2,0],[-.3,0]],l:[[0,-.04],[0,.04]],k:[0,.05],t:[0,.12,0],h:[0,-.2,.04]},
+{n:'Jubeln',y:.3,a:[[-.3,-2.7],[-.3,2.7]],e:[[-.3,0],[-.3,0]],l:[[-.35,-.12],[-.15,.12]],k:[.9,.6],t:[-.12,0,0],h:[-.3,0,0],ex:[4,1]},
+{n:'Awards halten',a:[[-1.25,-.12],[-1.25,.12]],e:[[-.6,0],[-.6,0]],l:[[0,-.05],[0,.05]],k:[0,0],t:[.04,0,0],h:[.05,0,0],hold:[0,1],ex:[0,0]},
+{n:'Siegerpose',a:[[0,-.7],[0,2.9]],e:[[0,1.7],[-.2,0]],l:[[0,-.2],[.12,.14]],k:[0,.15],t:[-.1,.3,.05],h:[-.2,-.35,0],w:-.15,hold:[1],ex:[1,0]},
+{n:'Torjubel',y:-.08,a:[[.4,-1.5],[.5,1.5]],e:[[-.2,0],[-.2,0]],l:[[-.5,-.1],[.35,.1]],k:[.1,.8],t:[-.2,.1,0],h:[-.3,0,0],ex:[4,0]},
+{n:'Siuu',y:-.04,a:[[.2,-.6],[.2,.6]],e:[[0,0],[0,0]],l:[[0,-.3],[0,.3]],k:[0,0],t:[-.15,0,0],h:[-.2,0,0],ex:[1,0]},
+{n:'Power-Pose',a:[[0,-.6],[0,.6]],e:[[0,1.6],[0,-1.6]],l:[[0,-.14],[0,.14]],k:[0,0],t:[-.06,0,0],h:[-.1,0,0],ex:[2,0]},
+{n:'Schuss',y:.02,a:[[.6,-1],[-.4,.9]],e:[[-.3,0],[-.3,0]],l:[[.1,-.05],[-1.25,.1]],k:[.2,.3],t:[-.25,-.2,0],h:[.1,.2,0],ex:[6,0]},
+{n:'Torwart',y:-.14,a:[[-.5,-.9],[-.5,.9]],e:[[-.4,0],[-.4,0]],l:[[-.6,-.25],[-.6,.25]],k:[1.2,1.2],t:[.25,0,0],h:[-.25,0,0],ex:[6,0]},
+{n:'Yes! (Faust)',y:-.04,a:[[0,-.15],[0,.8]],e:[[-.3,0],[0,2]],l:[[0,-.2],[0,.2]],k:[0,0],t:[0,-.2,0],h:[-.15,.1,0],ex:[6,0]},
+{n:'Kopfball',y:.22,a:[[.8,-.6],[.8,.6]],e:[[-.3,0],[-.3,0]],l:[[.3,-.1],[.5,.1]],k:[.6,.9],t:[-.5,0,0],h:[.3,0,0],ex:[6,0]},
+{n:'Verbeugung',a:[[.4,-.3],[-.6,.2]],e:[[-.3,0],[-1.6,-.6]],l:[[0,0],[0,0]],k:[0,0],t:[.75,0,0],h:[.3,0,0],ex:[0,1]},
+{n:'Arme verschränkt',a:[[-.4,-.2],[-.4,.2]],e:[[-1.5,.9],[-1.5,-.9]],l:[[0,-.12],[0,.12]],k:[0,0],t:[0,.1,0],h:[0,-.15,0],ex:[2,0]},
+{n:'Laufen',y:.08,a:[[-.8,-.1],[.7,.1]],e:[[-1.2,0],[-1.2,0]],l:[[-.7,-.03],[.5,.03]],k:[.6,1.2],t:[.15,0,0],h:[-.1,0,0],ex:[3,0]},
+{n:'Dab',a:[[-1,-.1],[0,2.3]],e:[[-1.9,.5],[0,0]],l:[[0,-.15],[0,.15]],k:[0,0],t:[.1,.1,0],h:[.35,-.2,.25],ex:[1,1]},
+{n:'Dribbling',y:-.05,a:[[.5,-.7],[-.3,.9]],e:[[-.6,0],[-.6,0]],l:[[.2,-.1],[-.6,.1]],k:[.3,.5],t:[.2,.1,0],h:[.1,0,0],ex:[6,0]},
+{n:'Parade',y:.3,a:[[-.2,-2.9],[-.2,2.9]],e:[[0,0],[0,0]],l:[[-.2,-.5],[-.1,.7]],k:[.3,.8],t:[0,0,.9],h:[0,0,-.4],ex:[5,0]}];
+function applyPose(r,p){[0,1].forEach(i=>{r.arm[i].rotation.set(p.a[i][0],0,p.a[i][1]);r.el[i].rotation.set(p.e[i][0],0,p.e[i][1]);r.leg[i].rotation.set(p.l[i][0],0,p.l[i][1]);r.kn[i].rotation.set(p.k[i],0,0);const q=p.l[i][0]+p.k[i];r.ft[i].rotation.x=-q*(Math.abs(p.l[i][0])>.9?.3:.9)});
+ r.hp.rotation.y=p.w||0;r.hp.position.y=.9+(p.y||0);r.tq.rotation.set(...p.t);r.hd.rotation.set(...p.h)}
+const KIT={'Argentinien':['vs',9],'Paraguay':['vs',9],'Kroatien':['ck',8]},KT={},lum=c=>{const q=new THREE.Color(c);return .2126*q.r+.7152*q.g+.0722*q.b};
+function kitCols(k,v){const T=TEAMS[k],m=T.m,t=T.t;if(v==1)return lum(m)>.6?[lum(t)<.45?t:'#1a1a1a',m]:['#f4f4f4',m];if(v==2)return['#141414',lum(t)>.3?t:m];if(v==3)return['#39d353','#111111'];return[m,t]}
+const LOGOS=['Keins','Stern','Ball','Krone','Blitz','Herz','Flamme','Schild','Eigenes Bild'],PATN=['Einfarbig','Längsstreifen','Querstreifen','Karo','Schärpe','Hälften','Zickzack','Diagonal','Verlauf','Brustband','Punkte','Rauten'],LGT={};
+function kitSpec(c){const T=TEAMS[c.team];let s;
+ if(c.km==1)s={m:c.k1,t:c.k2,a:c.k3,pat:c.kp,n:4+2*c.kni,sl:[c.k1,c.k2,c.k3][c.ks]};
+ else{const[m,t]=kitCols(c.team,c.var),kp=c.var?['solid']:(KIT[T.n]||['solid']);s={m,t,a:t,pat:{solid:0,vs:1,ck:3}[kp[0]],n:kp[1]||8,sl:m}}
+ s.nf=c.nf;s.nc=c.ncol;s.mc=c.nmc;s.num=c.nsh?null:c.num;s.nm=c.nmm==2?'':c.nmm==1?(c.cnm||''):(c.nm||'');s.fn=c.fn;s.sp=c.sp||'';return s}
+function kitTex(S){const key=JSON.stringify(S);if(KT[key])return KT[key];
+ const W=1024,H=512,cv=document.createElement('canvas');cv.width=W;cv.height=H;const x=cv.getContext('2d'),n=S.n||8,both=f=>{f(0);f(W)};
+ x.fillStyle=S.m;x.fillRect(0,0,W,H);x.fillStyle=S.t;
+ switch(S.pat){
+ case 0:[256,768].forEach(c=>[-18,-2,14].forEach(o=>x.fillRect(c+o,0,10,H)));break;
+ case 1:for(let i=1;i<n;i+=2)x.fillRect(i*W/n,0,W/n+1,H);break;
+ case 2:for(let j=1;j<n;j+=2)x.fillRect(0,j*H/n,W,H/n+1);break;
+ case 3:{const cw=W/n,ch=H/(n/2);for(let i=0;i<n;i++)for(let j=0;j<n/2;j++)if((i+j)%2)x.fillRect(i*cw,j*ch,cw+1,ch+1);break}
+ case 4:both(x0=>{x.beginPath();x.moveTo(x0-170,0);x.lineTo(x0-60,0);x.lineTo(x0+170,H);x.lineTo(x0+60,H);x.closePath();x.fill()});break;
+ case 5:x.fillRect(0,0,W/2,H);break;
+ case 6:{x.beginPath();const p=W/n;for(let i=0;i<=n;i++)x.lineTo(i*p,i%2?H*.3:H*.22);for(let i=n;i>=0;i--)x.lineTo(i*p,i%2?H*.46:H*.38);x.closePath();x.fill();break}
+ case 7:x.save();x.rotate(.5);for(let i=-n;i<n*2;i+=2)x.fillRect(i*W/n/1.4,-H,W/n/1.4,H*3);x.restore();break;
+ case 8:{const g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,S.m);g.addColorStop(1,S.t);x.fillStyle=g;x.fillRect(0,0,W,H);break}
+ case 9:x.fillRect(0,H*.22,W,H*.18);x.fillStyle=S.a;x.fillRect(0,H*.22,W,6);x.fillRect(0,H*.4-6,W,6);break;
+ case 10:for(let i=0;i<W;i+=48)for(let j=0;j<H;j+=48){x.beginPath();x.arc(i+((j/48)%2?24:0),j+12,9,0,7);x.fill()}break;
+ default:{const s=W/n;for(let i=0;i<n+1;i++)for(let j=0;j<n/2+2;j++){const cx=i*s+(j%2?s/2:0),cy2=j*s/1.5;x.beginPath();x.moveTo(cx,cy2-s/3);x.lineTo(cx+s/3,cy2);x.lineTo(cx,cy2+s/3);x.lineTo(cx-s/3,cy2);x.fill()}}}
+ x.strokeStyle='rgba(255,255,255,.05)';x.lineWidth=2;for(let i=-512;i<1024;i+=8){x.beginPath();x.moveTo(i,0);x.lineTo(i+512,512);x.stroke()}
+ const tc=S.nc||'#ffffff',oc=lum(tc)>.5?'#111111':'#ffffff',F=['Arial, sans-serif','Georgia, serif','Impact, Haettenschweiler, sans-serif','"Brush Script MT", cursive'][S.nf||0];
+ x.textAlign='center';x.lineJoin='round';
+ const T=(s,cx,y,px,col,mw)=>{x.font=`bold ${px}px ${F}`;x.lineWidth=px/10;x.strokeStyle=oc;x.fillStyle=col;x.strokeText(s,cx,y,mw);x.fillText(s,cx,y,mw)};
+ if(S.nm)T(S.nm.toUpperCase().slice(0,14),512,140,64,S.mc||tc,320);
+ if(S.num!=null){T(String(S.num),512,375,240,tc,280);if(S.fn==1)both(x0=>T(String(S.num),x0,310,100,tc,120));if(S.fn==2)both(x0=>T(String(S.num),x0,340,230,tc,260))}
+ if(S.sp)both(x0=>T(S.sp.toUpperCase().slice(0,14),x0,222,46,tc,380));
+ return KT[key]=new THREE.CanvasTexture(cv)}
+function buildChar(c0){
+ const c=Object.assign(defC(),c0),g=new THREE.Group(),T=TEAMS[c.team],SP=kitSpec(c),km=SP.m,kt=SP.a,ks=SP.sl,k2=SP.t,sk=c.skin,M=['#d4af37','#c0c0c0'],gl=[,'#111111','#ffffff','#39ff14'][c.glove],
+ fs=[[1,1,1],[.92,1.12,1],[1.1,.95,1.05],[.96,1.06,.98],[1.06,.98,1]][c.face],zf=fs[2],bw=[.9,1,1.1,1.22][c.bd],ar=[.9,1,1.08,1.2][c.bd],pcol=[c.pants,km,k2][c.pt],
+ skd=new THREE.Color(sk).lerp(new THREE.Color('#6b3a1a'),.4),AM=(p,geo,mat,x,y,z)=>{const m=new THREE.Mesh(geo,mat);m.position.set(x||0,y||0,z||0);m.castShadow=m.receiveShadow=true;p.add(m);return m};
+ g.scale.setScalar([.94,1,1.07][c.ht]);
+ const hp=new THREE.Group(),tq=new THREE.Group(),rig={hp,tq,arm:[],el:[],hand:[],leg:[],kn:[],ft:[]};hp.position.y=.9;g.add(hp);hp.add(tq);
+ S3(A(hp,cy(.2,.2,.16,20),pcol,0,.03,0),1.2*bw,1,.8);
+ [-1,1].forEach(s=>{const L=new THREE.Group(),K=new THREE.Group(),F=new THREE.Group();L.position.set(s*.125,0,0);hp.add(L);K.position.y=-.42;L.add(K);F.position.y=-.4;K.add(F);
+  if(c.pst){A(L,cy(.115,.1,.27,16),pcol,0,-.135,0);A(L,cy(.085,.08,.17),sk,0,-.355,0);A(K,sp(.08),sk);A(K,cy(.075,.06,.4),km,0,-.2,0);[.03,.09].forEach(y=>A(K,to(.074,.01),kt,0,-y,0).rotation.x=R9)}
+  else{A(L,cy(.105,.08,.42),pcol,0,-.21,0);A(K,sp(.08),pcol);A(K,cy(.078,.062,.4),pcol,0,-.2,0)}
+  S3(A(F,sp(.1),c.shoe,0,-.005,.07),.95,.6,1.7);A(F,bx(.19,c.ps?.05:.035,.36),'#f4f4f4',0,c.ps?-.055:-.06,.07);A(F,bx(.07,.01,.12),'#ffffff',0,.05,.12);
+  if(!c.ps)[[-.05,.2],[.05,.2],[-.05,-.02],[.05,-.02]].forEach(q=>A(F,cy(.008,.012,.03,6),'#cccccc',q[0],-.09,q[1]));
+  rig.leg.push(L);rig.kn.push(K);rig.ft.push(F)});
+ const tm=new THREE.MeshPhongMaterial({map:kitTex(SP),shininess:12});
+ S3(AM(tq,cy(.27,.2,.62,32),tm,0,.3,0),bw,1,.62);S3(A(tq,sp(.27),km,0,.61,0),bw,.3,.62);S3(A(tq,cy(.205,.2,.06,24),kt,0,.02,0),bw,1,.64);
+ A(tq,to(.085,.018),kt,0,.685,0).rotation.x=R9;A(tq,cy(.058,.064,.12),sk,0,.75,0);if(c.tt==2)A(tq,to(.062,.009),'#1b1b1b',0,.77,0).rotation.x=R9;
+ if(c.col==0)[-1,1].forEach(s=>A(tq,bx(.09,.02,.02),sk,s*.03,.645,.163).rotation.z=-s*.9);
+ if(c.col==2)[-1,1].forEach(s=>A(tq,bx(.07,.04,.02),kt,s*.05,.66,.168).rotation.z=-s*.5);
+ logoMesh(tq,c,SP,bw);
+ if(c.nk==1||c.nk==2){A(tq,to(.075,.006,24),M[c.nk-1],0,.64,0,1).rotation.x=R9;A(tq,sp(.018),M[c.nk-1],0,.54,.15,1)}
+ if(c.nk==3){A(tq,to(.088,.035),km,0,.665,0).rotation.x=R9;A(tq,to(.095,.025),kt,0,.64,0).rotation.x=R9;A(tq,bx(.07,.3,.02),km,.06,.5,.17);A(tq,bx(.07,.03,.022),kt,.06,.4,.17)}
+ [-1,1].forEach(s=>{const a=new THREE.Group(),e=new THREE.Group();a.position.set(s*.34*bw,.56,0);tq.add(a);e.position.y=-.29;a.add(e);
+  A(a,sp(.095*ar),ks);A(a,cy(.085*ar,.095*ar,.28),ks,0,-.14,0);A(a,to(.092*ar,.014),kt,0,-.28,0).rotation.x=R9;[-.05,-.085,-.12].forEach(y=>A(a,to(.092*ar,.006),kt,0,y,0).rotation.x=R9);
+  if(c.sl){A(e,cy(.07*ar,.055*ar,.32),ks,0,-.15,0);A(e,to(.058*ar,.012),kt,0,-.3,0).rotation.x=R9}else A(e,cy(.058*ar,.046*ar,.32),sk,0,-.15,0);
+  if(c.cap&&s<0)A(a,to(.092*ar,.02),'#ffdd00',0,-.2,0).rotation.x=R9;
+  if(c.tt==1&&!c.sl)[-.08,-.13,-.18].forEach(y=>A(e,to(.056*ar,.008),'#1b1b1b',0,y,0).rotation.x=R9);if(c.wr)A(e,to(.05*ar,.016),[,'#ffffff','#111111',kt][c.wr],0,-.29,0).rotation.x=R9;
+  const h=S3(A(e,sp(.062*ar),gl||sk,0,-.34,0),1,1.15,.85);A(e,sp(.024),gl||sk,-s*.05,-.33,.03);if(gl)A(e,cy(.056,.056,.05),'#999999',0,-.29,0);
+  if(c.ring)A(e,to(.052,.01),M[c.ring-1],0,-.295,0,1).rotation.x=R9;
+  if(c.brace)A(e,to(.062,.014),['#d4af37','#111111','#dd1111'][c.brace-1],0,-.21,0,1).rotation.x=R9;
+  rig.arm.push(a);rig.el.push(e);rig.hand.push(h)});
+ const H=new THREE.Group();H.position.y=.92;tq.add(H);rig.hd=H;
+ const y0=-.085,sf=(x,y)=>zf*Math.sqrt(Math.max(.0004,.0529-(x/fs[0])**2-(y/fs[1])**2)),LC=['#a14646','#c42b3a','#7a1a28','#d97a9a'][c.lip],V3=THREE.Vector3;
+ S3(A(H,sp(.23),sk),...fs);S3(A(H,sp(.1),sk,0,-.14,.07),fs[0]*(c.face==4?1.35:1),.9,.9);
+ [-1,1].forEach(s=>{const x=s*.08;
+  if(c.eyes==1||(c.eyes==2&&s>0))A(H,to(.03,.007,10,Math.PI),'#222222',x,.025,.205*zf);
+  else{S3(A(H,sp(.04),'#ffffff',x,.035,.19*zf),1,1,.6);A(H,sp(.025),c.eye,x,.035,.212*zf);A(H,sp(.012),'#000000',x,.035,.222*zf);A(H,sp(.006),'#ffffff',x+.008,.045,.226*zf)}
+  if(c.brow<2||c.brow==3)A(H,bx(c.brow==3?.09:.075,c.brow?(c.brow==3?.036:.026):.014,.018),c.hc,x,.1,.2*zf).rotation.z=-s*.12;
+  S3(A(H,sp(.045),sk,s*.226,-.01,0),c.ears?.7:.5,c.ears?1.2:1,.8);if(c.ear)A(H,sp(.02),M[c.ear-1],s*.228,-.07,0,1)});
+ if(c.nose==3)A(H,new THREE.ConeGeometry(.03,.08,8),sk,0,-.015,.222*zf).rotation.x=1.2;else{S3(A(H,sp(.03),sk,0,0,.215*zf),.8,2,1);A(H,sp(.026+c.nose*.006),sk,0,-.04,.222*zf)}
+ for(let k=0;k<(c.fr==1?6:c.fr==2?14:0);k++)[-1,1].forEach(s=>{const x=s*(.06+((k*37)%5)*.012),y=-.015-((k*53)%4)*.011;A(H,sp(.006),skd,x,y,sf(x,y)+.002)});
+ if(c.sc)A(H,bx(.004,.05,.004),'#d9a090',.085,.085,sf(.085,.085)+.003).rotation.z=.4;
+ if(c.fp==1)[-1,1].forEach(s=>[[-.02,km],[-.045,kt]].forEach(q=>A(H,bx(.045,.012,.004),q[1],s*.12,q[0],sf(s*.12,q[0])+.003)));
+ if(c.fp==2)[-1,1].forEach(s=>[km,'#ffffff',kt].forEach((col,i)=>A(H,bx(.04,.012,.004),col,s*.12,-.01-i*.014,sf(s*.12,-.01-i*.014)+.003)));
+ const ln=(w,cy2,k,o)=>{const p=[];for(let i=0;i<=16;i++){const u=i/16,x=(u*2-1)*w,y=(1-u)**2*cy2+2*(1-u)*u*k+u*u*cy2;p.push(new V3(x,y,sf(x,y)+o))}return p},
+ tb=(p,r)=>A(H,new THREE.TubeGeometry(new THREE.CatmullRomCurve3(p),24,r,6),LC),
+ fl=(w,cy2,uy,dy,col,o)=>{const s=new THREE.Shape();s.moveTo(-w,cy2);s.quadraticCurveTo(0,uy,w,cy2);s.quadraticCurveTo(0,dy,-w,cy2);return A(H,new THREE.ShapeGeometry(s,12),col,0,0,sf(0,cy2)+o)},
+ op=(w,cy2,uy,dy,te,tn)=>{fl(w,cy2,uy,dy,'#4a0e12',.0012);if(te)fl(w*.9,cy2-.001,uy-.002,uy+(dy-uy)*te,'#f6f6f2',.0024);
+  if(tn)S3(A(H,new THREE.CircleGeometry(.03,18),'#d0607a',0,(cy2+dy)/2+.014,sf(0,cy2)+.0024),1.1,.55,1);tb(ln(w,cy2,uy,.003),.0065);tb(ln(w,cy2,dy,.003),.0065)};
+ switch(c.mouth){
+ case 0:tb(ln(.055,y0+.012,y0-.03,.003),.0075);break;
+ case 1:op(.062,y0+.014,y0-.004,y0-.075,.6,0);break;
+ case 2:{const p=[];for(let i=0;i<=16;i++){const t=i/8-1,x=t*.05,y=y0-.007*(1-t*t)+t*.012+Math.max(0,t)**3*.012;p.push(new V3(x,y,sf(x,y)+.003))}tb(p,.0075);break}
+ case 3:tb(ln(.045,y0,y0-.004,.003),.0075);break;
+ case 4:op(.056,y0+.006,y0+.01,y0-.11,.35,1);break;
+ case 5:S3(A(H,new THREE.CircleGeometry(.026,20),'#4a0e12',0,y0-.008,sf(0,y0)+.0012),1,1.25,1);S3(A(H,new THREE.TorusGeometry(.026,.007,8,20),LC,0,y0-.008,sf(0,y0)+.003),1,1.25,1);break;
+ case 6:op(.058,y0,y0+.004,y0-.05,.95,0);A(H,bx(.1,.0035,.002),'#aaaaaa',0,y0-.011,sf(0,y0)+.004);break;
+ case 7:tb(ln(.05,y0-.014,y0+.03,.003),.0075);break;
+ default:op(.05,y0+.004,y0,y0-.07,0,0);S3(A(H,new THREE.CircleGeometry(.03,18),'#d0607a',0,y0-.045,sf(0,y0-.045)+.009),1,1.5,1)}
+ const hr=(o,a)=>tilt(S3(o,...fs),a),hc=c.hc,hs=c.hair;
+ if(!c.hat){
+  if([1,2,6,7,8,9].includes(hs)){hr(A(H,cap(.245,.5),hc,0,.02,0),-.45);[-1,1].forEach(s=>A(H,bx(.025,.07,.04),hc,s*.215,0,.03))}
+  if(hs==5)hr(A(H,cap(.234,.5),hc,0,.02,0),-.45);
+  if(hs==3)tilt(A(H,cap(.31,.5),hc,0,.04,-.03),-.35);
+  if(hs==4)for(let k=0;k<7;k++){const t=-.9+k*.32;A(H,new THREE.ConeGeometry(.04,.15,8),hc,0,.22*Math.cos(t)+.02,.22*Math.sin(t)).rotation.x=t}
+  if(hs==6){S3(A(H,sp(.05),hc,0,.0,-.27),1,2.2,1);A(H,sp(.04),hc,0,.12,-.24)}
+  if(hs==7)A(H,sp(.075),hc,0,.25,-.1);
+  if(hs==8){for(let k=0;k<16;k++){const t=k/16*Math.PI*2,z=Math.cos(t)*.2;if(z<.12)A(H,sp(.05),hc,Math.sin(t)*.2,.09+(k%3)*.03,z-.02)}for(let k=0;k<5;k++)A(H,sp(.055),hc,((k%3)-1)*.08,.2+(k>2?.04:0),-.04+(k>2?-.05:.0))}
+  if(hs==9)S3(A(H,sp(.1),hc,0,.22,.1),1,.8,1.3)}
+ if(hs==2){S3(A(H,sp(.23),hc,0,-.17,-.09),1,1.6,.75);[-1,1].forEach(s=>S3(A(H,sp(.05),hc,s*.2,-.12,.02),1,2.2,1))}
+ if(c.beard==1||c.beard==4){S3(A(H,new THREE.SphereGeometry(c.beard==1?.236:.233,20,12,0,Math.PI*2,Math.PI*(c.beard==1?.7:.62),Math.PI*(c.beard==1?.3:.38)),c.beard==1?hc:new THREE.Color(sk).lerp(new THREE.Color(hc),.35)),...fs)}
+ if(c.beard==1||c.beard==2)[-1,1].forEach(s=>S3(A(H,sp(.028),hc,s*.03,-.058,.21*zf),1.4,.7,.8));
+ if(c.beard==3)S3(A(H,sp(.045),hc,0,-.19,.1),1,1.5,.8);
+ const ring=(r,t,col,y,fx,fz)=>{const m=A(H,to(r,t,32),col,0,y,0);m.rotation.x=R9;S3(m,fx,fz,1)};
+ if(c.band)ring(.218,.02,[,km,'#ffffff','#111111'][c.band],.1,fs[0],fs[2]);
+ if(c.hat==1){tilt(A(H,cap(.255,.5),c.hatc,0,.03,0),-.15);A(H,sp(.025),c.hatc,0,.27,-.03);S3(A(H,sp(.19),c.hatc,0,.1,.2),1,.07,1)}
+ if(c.hat==2){tilt(A(H,cap(.262,.55),c.hatc,0,.02,0),-.2);A(H,to(.235,.04),c.hatc,0,.1,-.01).rotation.x=R9;A(H,sp(.045),c.hatc,0,.3,-.05)}
+ if(c.hat==3){A(H,cy(.2,.17,.1,18,true),'#d4af37',0,.27,0,1);for(let k=0;k<7;k++){const t=k/7*Math.PI*2;A(H,new THREE.ConeGeometry(.035,.1,8),'#d4af37',Math.sin(t)*.2,.37,Math.cos(t)*.2,1);A(H,sp(.016),['#d11','#17c','#1a4'][k%3],Math.sin(t)*.19,.27,Math.cos(t)*.19)}}
+ if(c.hat==4){S3(A(H,sp(.31),c.hatc,0,.11,0),1,.1,1);tilt(A(H,cap(.225,.55),c.hatc,0,.1,0),-.1)}
+ if(c.hat==5)for(let k=0;k<16;k++){const t=k/16*Math.PI*2;S3(A(H,sp(.03),'#c79a22',Math.sin(t)*.225,.1+(k%2)*.02,Math.cos(t)*.225,1),.4,.5,1.7).rotation.y=t}
+ if(c.glass){[-1,1].forEach(s=>{const x=s*.08;
+  if(c.glass==1)A(H,to(.047,.007),'#111111',x,.035,.228*zf);
+  else if(c.glass==2)A(H,to(.056,.007,4),'#111111',x,.035,.228*zf).rotation.z=Math.PI/4;
+  else A(H,new THREE.CircleGeometry(.05,18),'#0a0a0a',x,.035,.232*zf);
+  A(H,bx(.008,.008,.17),'#111111',s*.17,.04,.13)});A(H,bx(.05,.008,.008),'#111111',0,.045,.23*zf)}
+ return{g,rig}}
+function ball(g,x,y,r,col,pc){A(g,sp(r),col,x,y,0,1);new THREE.IcosahedronGeometry(1).attributes.position;const P=new THREE.IcosahedronGeometry(1).attributes.position,seen={};
+ for(let i=0;i<P.count;i++){const v=new THREE.Vector3().fromBufferAttribute(P,i).normalize(),k=v.toArray().map(q=>q.toFixed(2)).join();if(seen[k])continue;seen[k]=1;
+  const d=A(g,new THREE.CircleGeometry(r*.3,5),pc||'#1a1405',x+v.x*r*1.004,y+v.y*r*1.004,v.z*r*1.004);d.lookAt(x+v.x*r*2,y+v.y*r*2,v.z*r*2)}}
+const NM=['GOAL OF THE DAY','BALLON D’OR','PUSKÁS AWARD','CAPTAIN AWARD','BEST MATCHDAY','BESTE ENTWICKLUNG','BEST DEFENDER','BEST SHOT','BEST GOALKEEPER','HIGHEST SPEED','BEST ASSISTER','BEST DRIBBLER'],V3=THREE.Vector3;
+const tube=(P,pts,r,col,n)=>A(P,new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts.map(q=>new V3(...q))),n||32,r,8),col,0,0,0,1),
+star=(P,R,r,col,x,y,z,d)=>{const s=new THREE.Shape();for(let i=0;i<10;i++){const a=Math.PI/2+i*Math.PI/5,q=i%2?r:R,u=Math.cos(a)*q,v=Math.sin(a)*q;i?s.lineTo(u,v):s.moveTo(u,v)}return A(P,new THREE.ExtrudeGeometry(s,{depth:d||.02,bevelEnabled:true,bevelSize:.004,bevelThickness:.004,bevelSegments:1}),col,x,y,z,1)},
+lau=(P,r,y,n,col)=>{for(let i=0;i<n;i++){const t=i/n*Math.PI*2;S3(A(P,sp(.03),col,Math.sin(t)*r,y+(i%2)*.015,Math.cos(t)*r,1),.4,1.6,.12).rotation.y=t}},
+shape=(pts,cv)=>{const s=new THREE.Shape();pts.forEach((q,k)=>k?s.lineTo(q[0],q[1]):s.moveTo(q[0],q[1]));return s},
+ext=(s,d,b)=>new THREE.ExtrudeGeometry(s,{depth:d,bevelEnabled:true,bevelSize:b||.01,bevelThickness:b||.01,bevelSegments:2,curveSegments:14});
+function plate(t){const k=document.createElement('canvas');k.width=256;k.height=64;const x=k.getContext('2d');x.fillStyle='#e0b53a';x.fillRect(0,0,256,64);x.strokeStyle='#8a6a14';x.lineWidth=4;x.strokeRect(3,3,250,58);x.fillStyle='#3a2a08';x.font='bold 26px Georgia,serif';x.textAlign='center';x.textBaseline='middle';x.fillText(t,128,34,236);
+ return new THREE.Mesh(new THREE.PlaneGeometry(.2,.05),new THREE.MeshPhongMaterial({map:new THREE.CanvasTexture(k),shininess:80}))}
+function net(P,w,h,d,col){const v=[],s=.035;for(let x=-w/2;x<=w/2+1e-3;x+=s)v.push(x,0,-d,x,h,-d);for(let y=0;y<=h+1e-3;y+=s)v.push(-w/2,y,-d,w/2,y,-d,-w/2,y,0,-w/2,y,-d,w/2,y,0,w/2,y,-d);for(let z=0;z<=d;z+=s)v.push(-w/2,h,-z,w/2,h,-z);
+ const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(v,3));P.add(new THREE.LineSegments(g,new THREE.LineBasicMaterial({color:col,transparent:true,opacity:.55})))}
+function finger(P,x,y,rz,lens,rx){let q=new THREE.Group();q.position.set(x,y,0);q.rotation.z=rz;P.add(q);lens.forEach(len=>{A(q,cy(.02,.02,len,10),GD,0,len/2,0,1);A(q,sp(.02),GD,0,len,0,1);const n=new THREE.Group();n.position.y=len;n.rotation.x=rx;q.add(n);q=n})}
+function awardM(i){const g=new THREE.Group(),c=['#ffd54a','#d4af37','#ff7a1a','#2a7de1','#e8e8f0','#3ecf8e','#7a8cff','#e84a4a','#33c4c4','#f2e63a','#c06be0','#ff8fb1'][i],W='#f4f4f4';
+ A(g,LA([[0,0],[.23,0],[.23,.03],[.2,.04],[.2,.07],[.17,.08],[.17,.11],[0,.11]]),'#141109',0,0,0,1);
+ [.045,.095].forEach((y,k)=>A(g,to(k?.172:.205,.008,48),k?c:GD,0,y,0,1).rotation.x=R9);
+ A(g,bx(.21,.06,.008),'#8a6a14',0,.055,.2,1);const pl=plate(NM[i]);pl.position.set(0,.055,.205);g.add(pl);
+ const P=new THREE.Group();P.position.y=.12;g.add(P);
+ switch(i){
+ case 0:[-1,1].forEach(s=>{A(P,cy(.013,.013,.3,12),W,s*.2,.15,0,1);A(P,cy(.01,.01,.17,10),W,s*.2,.03,-.085,1).rotation.x=R9});A(P,cy(.013,.013,.4,12),W,0,.3,0,1).rotation.z=R9;net(P,.4,.3,.17,'#ffffff');
+  ball(P,.1,.1,.065,W);tube(P,[[-.3,.02,.25],[-.16,.12,.16],[.02,.14,.06],[.1,.11,.02]],.006,c);star(P,.05,.022,GD,0,.38,-.01,.015);break;
+ case 1:A(P,LA([[0,0],[.08,0],[.055,.05],[.035,.12],[.06,.17],[.0,.18]]),GD,0,0,0,1);ball(P,0,.36,.18,GD,'#3a2a08');A(P,to(.182,.004,48),'#3a2a08',0,.36,0,1).rotation.x=R9;lau(P,.13,.17,16,'#c79a22');break;
+ case 2:{const C=[[-.2,.12,0],[-.08,.12,.02],[.04,.2,0],[.14,.3,0]],cv=new THREE.CatmullRomCurve3(C.map(q=>new V3(...q)));tube(P,C,.01,c);
+  for(let k=0;k<10;k++){const p=cv.getPoint(k/10);A(P,sp(.012+k*.003),['#ffdd55','#ffb030','#ff7a1a','#e84a1a'][3-Math.floor(k/3)],p.x,p.y,p.z,0)}
+  ball(P,.14,.3,.09,W,c);A(P,cy(.012,.012,.2),GD,.14,.1,0,1);star(P,.045,.02,GD,-.14,.34,0,.012);break}
+ case 3:A(P,cy(.13,.13,.3,32),'#1c1710',0,.15,0,1);A(P,cy(.15,.15,.14,40,true),c,0,.17,0,1);[.1,.24].forEach(y=>A(P,to(.15,.01,40),GD,0,y,0,1).rotation.x=R9);
+  A(P,new THREE.CircleGeometry(.055,24),W,0,.17,.152);A(P,to(.03,.012,12,Math.PI*1.5),'#111111',0,.17,.156).rotation.z=Math.PI*.25;star(P,.07,.03,GD,0,.34,-.01,.02);break;
+ case 4:A(P,LA([[0,0],[.13,0],[.13,.02],[.1,.04],[.04,.07],[.03,.12],[.055,.15],[.03,.18],[.035,.24],[.09,.3],[.15,.36],[.17,.46],[.16,.52],[.145,.52],[.14,.4],[.07,.33],[0,.31]]),GD,0,0,0,1);
+  [-1,1].forEach(s=>tube(P,[[s*.15,.46,0],[s*.26,.5,0],[s*.28,.38,0],[s*.19,.3,0],[s*.1,.33,0]],.012,GD));A(P,to(.162,.008,40),c,0,.38,0,1).rotation.x=R9;A(P,sp(.035),c,0,.15,0,1);star(P,.045,.02,c,0,.45,.165,.01);break;
+ case 5:for(let k=0;k<5;k++){const h=.08+k*.07;A(P,bx(.075,h,.14),new THREE.Color('#7a5c10').lerp(new THREE.Color(GD),k/4),k*.085-.17,h/2,0,1)}
+  tube(P,[[-.2,.16,.09],[-.05,.22,.09],[.1,.34,.09],[.2,.5,.09]],.011,c);A(P,new THREE.ConeGeometry(.04,.09,16),c,.2,.54,.09,1).rotation.z=-.56;ball(P,.17,.4,.05,W);break;
+ case 6:{const s=new THREE.Shape();s.moveTo(-.16,.2);s.lineTo(.16,.2);s.lineTo(.16,.04);s.quadraticCurveTo(.15,-.1,0,-.17);s.quadraticCurveTo(-.15,-.1,-.16,.04);s.lineTo(-.16,.2);
+  A(P,ext(s,.05),GD,0,.3,-.03,1).scale.set(1.25,1.25,1);const n=A(P,ext(s,.02,.006),c,0,.3,.0,1);n.scale.set(1.0,1.0,1);A(P,bx(.04,.3,.012),GD,0,.3,.05,1);star(P,.06,.026,GD,0,.43,.04,.012);A(P,cy(.03,.05,.06),'#1c1710',0,.03,0,1);break}
+ case 7:{P.rotation.y=-.5;const f=new THREE.Shape();f.moveTo(-.05,-.17);f.bezierCurveTo(-.07,-.05,-.075,.08,-.045,.17);f.quadraticCurveTo(0,.2,.045,.17);f.bezierCurveTo(.075,.08,.07,-.05,.05,-.17);f.quadraticCurveTo(0,-.2,-.05,-.17);
+  A(P,new THREE.ExtrudeGeometry(f,{depth:.018,bevelEnabled:false,curveSegments:16}),'#1c1710',0,.03,0,1).rotation.x=R9;
+  S3(A(P,sp(.1),GD,0,.09,.03),.85,.7,1.7);A(P,cy(.062,.07,.14,16),GD,0,.17,-.09,1).rotation.x=-.15;A(P,bx(.05,.01,.1),c,0,.15,.03).rotation.x=.35;
+  for(let k=0;k<5;k++)A(P,cy(.006,.006,.07,6),W,0,.145-k*.004+.0,.0+k*.022,1).rotation.z=R9;
+  [[-.04,.12],[.04,.12],[0,.06],[-.035,-.1],[.035,-.1]].forEach(q=>A(P,cy(.01,.016,.035,8),c,q[0],.0,q[1],1));
+  [-1,1].forEach(s=>tube(P,[[s*.08,.07,-.07],[s*.088,.11,.01],[s*.07,.09,.1]],.007,c));ball(P,.2,.07,.07,W);break}
+ case 8:S3(A(P,sp(.1),GD,0,.22,0),1,1.15,.5);[.06,.05,.04].forEach(()=>0);
+  [[-1.5,.0,[.055,.05,.04]],[-.5,0,[.065,.055,.04]],[.5,0,[.065,.055,.04]],[1.5,0,[.055,.05,.04]]].forEach((q,k)=>finger(P,q[0]*.047,.3,-q[0]*.04,q[2],-.3));
+  finger(P,.1,.2,-1.0,[.06,.05],-.25);A(P,cy(.085,.09,.1,24),c,0,.12,0,1);A(P,to(.088,.012),W,0,.14,0,1).rotation.x=R9;A(P,to(.092,.008),GD,0,.08,0,1).rotation.x=R9;A(P,bx(.07,.05,.01),W,0,.12,.09);break;
+ case 9:A(P,cy(.03,.05,.15),'#1c1710',0,.075,0,1);A(P,to(.2,.012,48),GD,0,.27,0,1);
+  for(let k=0;k<24;k++){const t=k/24*Math.PI*2;A(P,bx(.008,.025,.008),k>17?'#e04040':W,Math.cos(t)*.17,.27+Math.sin(t)*.17,0,1).rotation.z=t-R9}
+  A(P,ext(shape([[.05,.3],[-.12,0],[-.01,0],[-.06,-.3],[.13,.04],[.02,.04]]),.04,.01),c,0,.27,-.02,1).scale.set(.45,.45,1);A(P,bx(.008,.15,.008),'#e04040',0,.27,.03).rotation.z=-.6;A(P,sp(.015),GD,0,.27,.03,1);break;
+ case 10:[-1,1].forEach(s=>A(P,cy(.03,.05,.18),GD,s*.17,.09,0,1));ball(P,-.17,.24,.065,W,c);ball(P,.17,.26,.08,GD,'#3a2a08');
+  tube(P,[[-.15,.3,0],[-.08,.42,0],[.05,.44,0],[.14,.37,0]],.01,c);A(P,new THREE.ConeGeometry(.035,.08,12),c,.15,.35,0,1).rotation.z=-2.2;[-.04,.04].forEach(x=>star(P,.03,.013,GD,x,.5,0,.01));break;
+ default:{const cs=[];for(let k=0;k<5;k++){const x=(k-2)*.1,z=k%2?.07:-.07;cs.push([x,z]);A(P,new THREE.ConeGeometry(.03,.07,16),k%2?'#ff7a1a':W,x,.035,z,0)}
+  tube(P,[[-.24,.03,0],[-.1,.03,.1],[0,.03,-.1],[.1,.03,.1],[.2,.06,0]],.007,c,40);ball(P,.2,.1,.07,W,c);[0,1].forEach(k=>A(P,to(.115,.008,32),GD,.2,.1,0,1).rotation.set(1.1,k?.9:-.5,0))}}
+ return g}
+let R,Sc,Cam,G,drag,rot=.35,raf,auto=1,zm=1,tab=0,PT,clk=new THREE.Clock();
+const bm=(p,geo,col,x,y,z,o)=>{const m=new THREE.Mesh(geo,new THREE.MeshBasicMaterial(Object.assign({color:col},o)));m.position.set(x||0,y||0,z||0);p.add(m);return m};
+function init3(){
+ R=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});R.shadowMap.enabled=true;R.shadowMap.type=THREE.PCFSoftShadowMap;
+ Sc=new THREE.Scene();Cam=new THREE.PerspectiveCamera(35,1,.1,60);
+ const k=document.createElement('canvas');k.width=k.height=256;const x=k.getContext('2d'),gr=x.createRadialGradient(128,90,10,128,128,200);gr.addColorStop(0,'#4a3913');gr.addColorStop(.5,'#1a1408');gr.addColorStop(1,'#030201');x.fillStyle=gr;x.fillRect(0,0,256,256);Sc.background=new THREE.CanvasTexture(k);
+ Sc.add(new THREE.HemisphereLight(0xfff4dc,0x2a2110,.6));
+ const L=new THREE.DirectionalLight(0xffffff,1);L.position.set(3,6,4);L.castShadow=true;L.shadow.mapSize.set(1024,1024);Object.assign(L.shadow.camera,{left:-3,right:3,top:4,bottom:-2,near:1,far:20});L.shadow.bias=-.0005;Sc.add(L);
+ const L2=new THREE.DirectionalLight(0xffd98a,.7);L2.position.set(-4,3,-3);Sc.add(L2);
+ A(Sc,cy(2.4,2.5,.1,64),'#0c0905',0,-.17,0,1);A(Sc,cy(2.1,2.2,.12,64),'#17120a',0,-.06,0,1);
+ bm(Sc,to(2.1,.035,64),'#e0b53a',0,0,0).rotation.x=R9;
+ [1.6,1.1,.6].forEach((r,i)=>bm(Sc,to(r,.008,64),'#e0b53a',0,.003,0,{transparent:true,opacity:.7-i*.2}).rotation.x=R9);
+ [[0,3,-.8,0],[-2,3,-.5,.4],[2,3,-.5,-.4]].forEach(b=>{const m=bm(Sc,new THREE.ConeGeometry(1.5,6,32,1,true),'#ffe9a8',b[0],b[1],b[2],{transparent:true,opacity:.055,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide});m.rotation.z=b[3]});
+ bm(Sc,to(3,.025,64),'#e0b53a',0,2.2,-3);
+ const pg=new THREE.BufferGeometry(),n=140,ps=new Float32Array(n*3);for(let i=0;i<n;i++){const a=Math.random()*6.28,r=1+Math.random()*3;ps[i*3]=Math.cos(a)*r;ps[i*3+1]=Math.random()*4.5;ps[i*3+2]=Math.sin(a)*r-1}
+ pg.setAttribute('position',new THREE.BufferAttribute(ps,3));PT=new THREE.Points(pg,new THREE.PointsMaterial({color:'#ffe08a',size:.045,transparent:true,opacity:.8,depthWrite:false}));Sc.add(PT);
+ const d=R.domElement;d.onpointerdown=e=>{drag=e.clientX;d.setPointerCapture(e.pointerId)};d.onpointerup=()=>drag=null;
+ d.onpointermove=e=>{if(drag!=null&&G){rot+=(e.clientX-drag)*.01;drag=e.clientX;G.rotation.y=rot}};
+ d.onwheel=e=>{e.preventDefault();zm=Math.min(1.7,Math.max(.45,zm*(1+e.deltaY*.001)));setCam(fk)}}
+const F={head:[400,400],full:[600,600],banner:[1500,450]};
+function setCam(k){const p={head:[1.82,1.6,1.8],full:[1.2,5.2,.95],banner:[1.1,5.8,.9]}[k];Cam.position.set(0,p[0],p[1]*zm);Cam.lookAt(0,p[2],0)}
+function sz(k,w,h){R.setSize(w,h,false);Cam.aspect=w/h;setCam(k);Cam.updateProjectionMatrix()}
+function prev(){const[w,h]=F[fk];sz(fk,760,Math.round(760*h/w))}
+function shot(k){const[w,h]=F[k];sz(k,w,h);R.render(Sc,Cam);const u=R.domElement.toDataURL('image/jpeg',.85);prev();return u}
+const POSES=PZ.map(p=>p.n);
+let CR,CP;
+function rebuild(me){
+ if(G)Sc.remove(G);G=new THREE.Group();G.rotation.y=rot;Sc.add(G);
+ const p=PZ[pz],ch=Object.assign({},me.ch,{nm:me.name});if(ch.ax!==0&&p.ex){ch.mouth=p.ex[0];ch.eyes=p.ex[1]}const C=buildChar(ch);G.add(C.g);applyPose(C.rig,p);CR=C.rig;CP=p;if(ch.ball){const bg=new THREE.Group();ball(bg,0,.11,.11,'#f4f4f4');bg.position.set(ch.ball==1?0:.45,0,ch.ball==1?.55:.3);G.add(bg)}G.updateMatrixWorld(true);
+ const own=new Set(D.aw.filter(a=>a.uid==me.id).map(a=>a.a)),L=[...sel].filter(i=>own.has(i)).sort((a,b)=>a-b),hs=p.hold||[];
+ hs.forEach((i,k)=>{if(L[k]==null)return;const m=awardM(L[k]),v=new THREE.Vector3();m.scale.setScalar(.45);C.rig.hand[i].getWorldPosition(v);G.worldToLocal(v);m.position.copy(v);m.position.y+=.04;G.add(m)});
+ const rest=L.slice(hs.length);
+ rest.forEach((i,k)=>{const m=awardM(i);m.scale.setScalar(.6);m.position.set((k-(rest.length-1)/2)*.55,0,.8+(k%2)*.35);G.add(m)});drawPrev(ch)}
+function loop(){cancelAnimationFrame(raf);if(V.p!='studio')return;const t=clk.getElapsedTime();
+ if(auto&&drag==null&&G){rot+=.006;G.rotation.y=rot}
+ if(CR){CR.tq.rotation.set(CP.t[0]+Math.sin(t*1.7)*.012,CP.t[1],CP.t[2]+Math.sin(t*1.1)*.008);CR.hd.rotation.set(CP.h[0],CP.h[1]+Math.sin(t*.8)*.04,CP.h[2])}
+ PT.rotation.y=t*.05;PT.position.y=Math.sin(t*.6)*.12;R.render(Sc,Cam);raf=requestAnimationFrame(loop)}
+const MN=['Lächeln','Grinsen','Schmunzeln','Neutral','Jubel','Staunen','Zähne zeigen','Traurig','Zunge raus'],
+CFG=[['Körper'],['skin','Hautfarbe','c'],['bd','Körperbau',['Schlank','Normal','Athletisch','Kräftig']],['ht','Größe',['Klein','Mittel','Groß']],['face','Gesichtsform',['Rund','Lang','Breit','Oval','Kantig']],['eye','Augenfarbe','c'],['eyes','Augen',['Offen','Glücklich','Zwinkern']],['brow','Augenbrauen',['Dünn','Dick','Keine','Buschig']],['nose','Nase',['Klein','Mittel','Groß','Spitz']],['ears','Ohren',['Normal','Groß']],['mouth','Mund',MN],['lip','Lippenfarbe',['Natürlich','Rot','Dunkelrot','Rosa']],['tt','Tattoos',['Keine','Unterarm-Bänder','Halsband']],
+ ['hair','Frisur',['Glatze','Kurz','Lang','Afro','Irokese','Buzzcut','Pferdeschwanz','Dutt','Locken','Pompadour']],['hc','Haar-/Bartfarbe','c'],['beard','Bart',['Keiner','Vollbart','Schnurrbart','Ziegenbart','Stoppeln']],['fr','Sommersprossen',['Keine','Wenige','Viele']],['sc','Narbe',['Keine','Augenbraue']],['fp','Gesichtsfarbe',['Keine','Wangenstreifen','Flagge']],
+ ['Trikot'],['km','Trikot-Typ',['Nationalmannschaft','Eigenes Design']],
+ ['team','Nationalmannschaft (WM 2026)',TEAMS.map(t=>t.n),c=>c.km!=1],['var','Variante',['Heim','Auswärts','Schwarz','Torwart'],c=>c.km!=1],['tpl','Als Vorlage für eigenes Design übernehmen','b',c=>c.km!=1],['wn','Das Wappen der Nation kommt aus der Wappen-Verwaltung des Admins. Für ein eigenes Logo wechsle auf „Eigenes Design“.','i',c=>c.km!=1],
+ [null,'Design','h',c=>c.km==1],['kp','Muster',PATN,c=>c.km==1],['kni','Streifen / Felder',['4','6','8','10','12','14','16'],c=>c.km==1&&[1,2,3,6,7,11].includes(c.kp)],['k1','Hauptfarbe','c',c=>c.km==1],['k2','Zweitfarbe (Muster)','c',c=>c.km==1],['k3','Akzentfarbe (Kragen, Bündchen)','c',c=>c.km==1],['ks','Ärmelfarbe',['Hauptfarbe','Zweitfarbe','Akzentfarbe'],c=>c.km==1],
+ [null,'Schnitt','h'],['col','Kragen',['V-Ausschnitt','Rund','Polo']],['sl','Ärmel',['Kurz','Lang']],
+ [null,'Nummer','h'],['nsh','Nummer anzeigen',['Ja','Nein']],['num','Rückennummer','n'],['ncol','Nummernfarbe','c'],['nf','Schriftart',['Modern','Klassisch','Block','Schreibschrift']],['fn','Nummer auf der Brust',['Keine','Klein','Groß']],
+ [null,'Name & Text','h'],['nmm','Name auf dem Rücken',['Spielername','Eigener Text','Kein Name']],['cnm','Eigener Name','t',c=>c.nmm==1],['nmc','Namensfarbe','c'],['sp','Brusttext (z. B. Sponsor)','t'],
+ [null,'Logo','h',c=>c.km==1],['lg','Logo',LOGOS,c=>c.km==1],['lc','Logofarbe','c',c=>c.km==1&&c.lg>0&&c.lg<8],['lgu','Eigenes Logo hochladen','u',c=>c.km==1&&c.lg==8],['lp','Position',['Links','Mitte','Rechts'],c=>c.km==1&&c.lg>0],['ls','Größe',['Klein','Mittel','Groß'],c=>c.km==1&&c.lg>0],
+
+ ['Kleidung'],['pst','Hose',['Lang','Shorts + Stutzen']],['pt','Hosenfarbe',['Eigene','Teamfarbe','Zweitfarbe']],['pants','Eigene Hosenfarbe','c'],['ps','Schuhe',['Stollen','Sneaker']],['shoe','Schuhfarbe','c'],['glove','Handschuhe',['Keine','Schwarz','Weiß','Neon']],['hat','Kopfbedeckung',['Keine','Cap','Mütze','Krone','Fischerhut','Lorbeerkranz']],['hatc','Farbe Kopfbedeckung','c'],
+ ['Accessoires'],['band','Stirnband',['Keins','Teamfarbe','Weiß','Schwarz']],['glass','Brille',['Keine','Rund','Eckig','Sonnenbrille']],['ring','Ring',['Keiner','Gold','Silber']],['ear','Ohrring',['Keiner','Gold','Silber']],['brace','Armband',['Keins','Gold','Schwarz','Rot']],['wr','Schweißband',['Keins','Weiß','Schwarz','Teamfarbe']],['nk','Hals',['Frei','Goldkette','Silberkette','Fan-Schal']],['cap','Kapitänsbinde',['Nein','Ja']]];
+const THM=[{n:'Gold-Gala',b:['#4a3913','#1a1408','#030201'],p:'#17120a',r:'#e0b53a',m:'#ffe9a8',s:'#ffe08a'},{n:'Stadion',b:['#9ad0ff','#4a8fc9','#12351f'],p:'#1f6b2e',r:'#ffffff',m:'#ffffff',s:'#ffffff'},{n:'Flutlicht-Nacht',b:['#1b2a5a','#0b1330','#02040c'],p:'#0e1630',r:'#6fa8ff',m:'#bcd6ff',s:'#9cc0ff'},{n:'Roter Teppich',b:['#5a1219','#2a0a0e','#050102'],p:'#7a0f1c',r:'#e0b53a',m:'#ffd0d0',s:'#ffb0b0'},{n:'Neon',b:['#3a0f5a','#14052a','#02010a'],p:'#12081f',r:'#ff3df2',m:'#7dffea',s:'#7dffea'}];
+function setTheme(i){const t=THM[i]||THM[0];if(!Sc)return;
+ const k=document.createElement('canvas');k.width=k.height=256;const x=k.getContext('2d'),gr=x.createRadialGradient(128,90,10,128,128,200);gr.addColorStop(0,t.b[0]);gr.addColorStop(.5,t.b[1]);gr.addColorStop(1,t.b[2]);x.fillStyle=gr;x.fillRect(0,0,256,256);Sc.background=new THREE.CanvasTexture(k);
+ Sc.children.forEach(o=>{const g=o.geometry&&o.geometry.type;if(g=='TorusGeometry'&&o.material.isMeshBasicMaterial)o.material.color.set(t.r);else if(g=='ConeGeometry')o.material.color.set(t.m);else if(g=='CylinderGeometry'&&o.geometry.parameters.radiusTop==2.1)o.material.color.set(t.p)});if(PT)PT.material.color.set(t.s)}
+const PAL={skin:['#fde0c8','#f1c27d','#e0ac69','#c68642','#8d5524','#5c3a21'],hc:['#0d0d0d','#2b1b10','#5a3825','#9b6a3c','#d8b45a','#b5371f','#9a9a9a','#e8e8e8','#3b6fd4','#8e3bd4'],eye:['#3b2a1a','#5b3a1e','#2f6ea5','#2e8b57','#777777','#111111'],_:['#111111','#ffffff','#1c2c5b','#d4af37','#b0122c','#0a7f3f','#75aadb','#f36c21','#7a7a7a']};
+const TABS=['👤 Körper','🎽 Trikot-Designer','🩳 Kleidung','💍 Accessoires','🏆 Awards','🎬 Szene'];
+function panH(me){
+ let h=`<div class=row>${TABS.map((n,i)=>`<button class="chip ${tab==i?'on':''}" data-t=${i}>${n}</button>`).join('')}</div>`;
+ if(tab==1)h+=`<canvas id=jp width=360 height=190 style="width:100%;border-radius:10px;background:#0f0c07;margin-top:8px"></canvas>`;const chips=(k,a,v)=>`<div class=chips>${a.map((n,i)=>`<button class="chip ${v==i?'on':''}" data-k=${k} data-v=${i} data-n=1>${n}</button>`).join('')}</div>`;
+ if(tab==5)return h+`<h3>Kulisse</h3>`+chips('th',THM.map(t=>t.n),me.ch.th||0)+`<h3>Ausdruck passt zur Pose</h3>`+chips('ax',['Aus','An'],me.ch.ax==null?1:me.ch.ax)+`<p class=mu>Bei „An“ ändern sich Mund und Augen passend zur Pose (z. B. Jubel beim Jubeln).</p><h3>Beleuchtung</h3>`+chips('lt',['Standard','Hell','Dramatisch'],me.ch.lt||0)+`<h3>Fußball</h3>`+chips('ball',['Kein','Vor den Füßen','Neben dem Fuß'],me.ch.ball||0);
+ if(tab==4){const o=[...new Set(D.aw.filter(a=>a.uid==me.id).map(a=>a.a))].sort((a,b)=>a-b);
+  return h+`<h3>Pose</h3><div class=chips>${POSES.map((n,i)=>`<button class="chip ${pz==i?'on':''}" data-p=${i}>${n}</button>`).join('')}</div><h3>Awards im Bild</h3>`+
+   (o.length?`<div class=chips>${o.map(i=>`<button class="chip ${sel.has(i)?'on':''}" data-a=${i}>${IC[i]} ${AW[i]}</button>`).join('')}</div><p class=mu>Bei „Awards halten“ und „Siegerpose“ nimmst du die ersten Awards in die Hand, der Rest steht vor dir.</p>`:'<p class=mu>Du hast noch keine Awards. Sobald der Admin dir welche vergibt, kannst du sie hier in Szene setzen.</p>')}
+ const sec=['Körper','Trikot','Kleidung','Accessoires'][tab],D0=defC();let on=0;
+ for(const r of CFG){if(r.length==1){on=r[0]==sec;continue}if(!on)continue;const[k,l,t,cd]=r,cu=Object.assign({},D0,me.ch);if(cd&&!cd(cu))continue;const v=cu[k];if(t=='h'){h+=`<div class=sub>${l}</div>`;continue}if(t=='i'){h+=`<p class=mu>${l}</p>`;continue}if(t=='b'){h+=`<button class=b2 onclick="tmpl()">${l}</button>`;continue}h+=`<h3>${l}</h3>`;
+  if(t=='c')h+=`<div class=chips>${(PAL[k]||PAL._).map(x=>`<span class="sw ${v==x?'on':''}" data-k=${k} data-v="${x}" style="background:${x}"></span>`).join('')}<input type=color data-k=${k} value="${v}"></div>`;
+  else if(t=='t')h+=`<input type=text maxlength=14 data-k=${k} value="${E(v)}" style="width:100%">`;else if(t=='u')h+=`<div class=row><label class=b2 style="cursor:pointer">Bild wählen<input type=file accept="image/*" hidden onchange="upLogo(this.files[0])"></label>${cu.lgi?'<span class=mu>✓ Bild hinterlegt</span>':''}</div>`;else if(t=='n')h+=`<div class=row><input type=number min=0 max=99 data-k=${k} value="${v}" style="width:90px"><span class=mu>Name &amp; Nummer stehen auf dem Rücken des Trikots – dreh die Figur.</span></div>`;
+  else h+=`<div class=chips>${t.map((n,i)=>`<button class="chip ${v==i?'on':''}" data-k=${k} data-v=${i} data-n=1>${k=='team'?`<i style="background:${TEAMS[i].m};border-color:${TEAMS[i].t}"></i>`:''}${n}</button>`).join('')}</div>`}
+ return h}
+function refresh(){const m=ME(),c=$('#ctl'),s=c.scrollTop;c.innerHTML=panH(m);c.scrollTop=s;rebuild(m);setTheme(m.ch.th||0);setLight(m.ch.lt||0)}
+const pk=a=>a[Math.floor(Math.random()*a.length)],ri=n=>Math.floor(Math.random()*n);
+function rnd(){const m=ME(),c=m.ch;Object.assign(c,{skin:pk(PAL.skin),bd:ri(4),ht:ri(3),face:ri(5),eye:pk(PAL.eye),eyes:pk([0,0,0,1,2]),mouth:ri(9),nose:ri(4),ears:ri(2),hair:ri(10),hc:pk(PAL.hc),brow:ri(4),beard:pk([0,0,1,2,3,4]),fr:pk([0,0,1,2]),sc:pk([0,0,0,1]),fp:pk([0,0,0,1,2]),team:ri(48),var:pk([0,0,0,1,2]),col:ri(3),sl:pk([0,0,1]),num:1+ri(99),pst:pk([0,1,1]),pt:ri(3),pants:pk(PAL._),ps:ri(2),shoe:pk(PAL._),glove:pk([0,0,1,2,3]),hat:pk([0,0,0,1,2,3,4,5]),hatc:pk(PAL._),band:pk([0,0,0,1,2,3]),glass:pk([0,0,1,2,3]),ring:ri(3),ear:ri(3),brace:ri(4),wr:pk([0,0,1,2,3]),nk:pk([0,0,0,1,2,3]),cap:pk([0,0,1]),tt:pk([0,0,0,1,2]),lip:pk([0,0,1,2,3]),km:pk([0,0,1]),kp:ri(12),kni:ri(7),k1:pk(PAL._),k2:pk(PAL._),k3:pk(PAL._),ks:ri(3),nf:ri(4),fn:pk([0,0,1,2]),lg:ri(8),lc:pk(PAL._),lp:ri(3),ls:ri(3)});save();refresh()}
+function setFk(k){fk=k;prev();document.querySelectorAll('[data-f]').forEach(b=>b.classList.toggle('on',b.dataset.f==k))}
+function studio(me){
+ if(!R)init3();
+ $('#main').innerHTML=`<div class=st><div class=stage><div id=cv></div><div class=row>${[['head','👤 Kopf'],['full','🧍 Ganzkörper'],['banner','🖼 Banner']].map(a=>`<button class="chip ${fk==a[0]?'on':''}" data-f=${a[0]} onclick="setFk('${a[0]}')">${a[1]}</button>`).join('')}<button class="chip ${auto?'on':''}" onclick="auto=!auto;this.classList.toggle('on',auto)">🔄 Drehen</button><button class=chip onclick=rnd()>🎲 Zufall</button></div>
+ <div class=row><button class=b onclick="useI('av')">Als Profilbild</button><button class=b onclick="useI('bn')">Als Banner</button><button class=b2 onclick="useI('post')">Posten</button><button class=b2 onclick="useI('dl')">Download</button></div><p class=mu>Ziehen = drehen · Scrollen = Zoom · Format oben wählen, dann speichern</p></div><div class="card ctl" id=ctl></div></div>`;
+ $('#cv').appendChild(R.domElement);const c=$('#ctl');
+ c.onclick=e=>{const t=e.target.closest('[data-t],[data-k],[data-a],[data-p]');if(!t||t.tagName=='INPUT')return;const d=t.dataset,m=ME();
+  if(d.t!=null)tab=+d.t;else if(d.k){m.ch[d.k]=d.n?+d.v:d.v;save()}else if(d.a!=null){const i=+d.a;sel.has(i)?sel.delete(i):sel.add(i)}else pz=+d.p;refresh()};
+ c.oninput=e=>{const t=e.target;if(t.type=='color'||t.type=='number'){ME().ch[t.dataset.k]=t.type=='number'?Math.max(0,Math.min(99,+t.value||0)):t.value;save();rebuild(ME())}else if(t.type=='text'&&t.dataset.k){ME().ch[t.dataset.k]=t.value.slice(0,14);save();rebuild(ME())}};
+ c.onchange=e=>{if(e.target.type=='color')refresh()};
+ refresh();prev();loop()}
+function toast(m){let t=$('#toast');if(!t){t=document.createElement('div');t.id='toast';t.style.cssText='position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#d4af37;color:#1a1405;padding:10px 18px;border-radius:22px;font-weight:600;z-index:99';document.body.appendChild(t)}t.textContent=m;t.style.display='block';clearTimeout(t._t);t._t=setTimeout(()=>t.style.display='none',2800)}
+function modal(h){let m=$('#modal');if(!m){m=document.createElement('div');m.id='modal';m.style.cssText='position:fixed;inset:0;background:#000c;display:flex;align-items:center;justify-content:center;z-index:98;padding:16px';m.onclick=e=>{if(e.target==m)m.remove()};document.body.appendChild(m)}m.innerHTML=`<div class=card style="max-width:520px;width:100%;max-height:90vh;overflow:auto;margin:0">${h}</div>`}
+const closeM=()=>{const m=$('#modal');m&&m.remove()};let ASKF,PS;
+function ask(t,f){ASKF=f;modal(`<p>${t}</p><div class=row><button class=b onclick="closeM();ASKF()">Ja</button><button class=b2 onclick=closeM()>Abbrechen</button></div>`)}
+function pubS(){const id='p'+Date.now();D.posts.push({id,ts:Date.now(),u:S.id,t:$('#mt').value.trim(),img:PS,l:[],c:[]});save();closeM();toast('Gepostet!');go('feed');react(id)}
+function useI(t){const me=ME(),u=shot(fk);
+ if(t=='av'){me.av=u;save();toast('Profilbild gesetzt!')}
+ else if(t=='bn'){me.bn=u;save();toast('Banner gesetzt!'+(fk=='banner'?'':' (Tipp: Format „Banner“ wählen)'))}
+ else if(t=='post'){PS=u;modal(`<h2>Beitrag erstellen</h2><img class=pi src="${u}"><textarea id=mt placeholder="Text zum Beitrag (optional)"></textarea><div class=row><button class=b onclick="pubS()">Posten</button><button class=b2 onclick=closeM()>Abbrechen</button></div>`)}
+ else modal(`<h2>Bild speichern</h2><img class=pi src="${u}"><p class=mu>Rechtsklick → „Bild speichern unter“, am Handy Bild gedrückt halten.</p><button class=b2 onclick=closeM()>Schließen</button>`)}
+
+if(!cl)ensureBots();setInterval(botTick,8000);
+render();cloudInit();
+</script></body></html>
